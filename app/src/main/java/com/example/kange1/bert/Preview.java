@@ -79,4 +79,10 @@ public class Preview extends SurfaceView implements SurfaceHolder.Callback {
         camera = null;
     }
 
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+        
+    }
+
 }
