@@ -82,7 +82,7 @@ public class Preview extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void draw(Canvas canvas) {
         super.draw(canvas);
-        
+
     }
 
 }
