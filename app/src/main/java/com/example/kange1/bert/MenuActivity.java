@@ -2,6 +2,7 @@ package com.example.kange1.bert;
 
 import android.content.Intent;
 import android.app.Activity;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
@@ -30,34 +31,27 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Set;
 
+import java.io.File;
+import android.os.Environment;
+import android.util.Log;
+import java.text.SimpleDateFormat;
+import java.util.Locale;
+import java.util.Date;
+
+
 public class MenuActivity extends Activity {
     ImageButton b1, b2;
     ImageView iv;
+
+    public static final int MEDIA_TYPE_IMAGE = 1;
+    private static final int CAPTURE_IMAGE_CODE = 200;
+    private Uri fileUri;
+    private static final String IMAGE_DIRECTORY_NAME = "OpenCV Demo";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-
-        b1 = (ImageButton)findViewById(R.id.imageButton);
-        //iv = (ImageView)findViewById(R.id.imageView);
-
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, 0);
-            }
-
-        });
-    }
-
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
-        super.onActivityResult(requestCode, resultCode, data);
-
-        Bitmap bp = (Bitmap) data.getExtras().get("data");
-        iv.setImageBitmap(bp);
     }
 
     @Override
@@ -107,4 +101,8 @@ public class MenuActivity extends Activity {
         Intent intent = new Intent(MenuActivity.this, CameraActivity.class);
         startActivity(intent);
     }
+
+
+
+
 }

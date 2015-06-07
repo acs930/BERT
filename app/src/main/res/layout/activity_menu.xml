@@ -59,9 +59,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imageButton"
-        android:onClick="sendMessageFive"
         android:src="@drawable/camera"
         android:layout_above="@+id/textView2"
+        android:onClick="sendMessageFive"
         android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
