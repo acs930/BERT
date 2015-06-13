@@ -58,6 +58,12 @@ public class CameraActivity extends Activity {
 
         Bitmap bp = (Bitmap)data.getExtras().get("data");
         iv.setImageBitmap(bp);
+        Intent i = new Intent(CameraActivity.this, SelectActivity.class);
+        ByteArrayOutputStream bs = new ByteArrayOutputStream();
+
+        bp.compress(Bitmap.CompressFormat.PNG, 50, bs);
+        i.putExtra("byteArray", bs.toByteArray());
+        startActivity(i);
     }
 
     @Override
@@ -85,5 +91,10 @@ public class CameraActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void sendMessage(View view) {
+        Intent intent = new Intent(CameraActivity.this, SelectActivity.class);
+        startActivity(intent);
     }
 }
