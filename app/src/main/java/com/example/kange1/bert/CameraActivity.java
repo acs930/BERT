@@ -61,7 +61,7 @@ public class CameraActivity extends Activity {
         Intent i = new Intent(CameraActivity.this, SelectActivity.class);
         ByteArrayOutputStream bs = new ByteArrayOutputStream();
 
-        bp.compress(Bitmap.CompressFormat.PNG, 50, bs);
+        bp.compress(Bitmap.CompressFormat.PNG, 100, bs);
         i.putExtra("byteArray", bs.toByteArray());
         startActivity(i);
     }

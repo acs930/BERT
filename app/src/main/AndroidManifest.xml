@@ -60,6 +60,10 @@
             android:name=".SelectActivity"
             android:label="@string/title_activity_select" >
         </activity>
+        <activity
+            android:name=".UploadToServerActivity"
+            android:label="@string/title_activity_upload_to_server" >
+        </activity>
     </application>
 
 </manifest>
