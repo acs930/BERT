@@ -86,7 +86,7 @@ public class MenuActivity extends Activity {
         startActivity(intent);
     }
     public void sendMessageTwo(View view) {
-        Intent intent = new Intent(MenuActivity.this, ProfileActivity.class);
+        Intent intent = new Intent(MenuActivity.this, FeatureSelectorActivity.class);
         startActivity(intent);
     }
     public void sendMessageThree(View view) {
