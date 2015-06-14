@@ -17,5 +17,6 @@
     <string name="title_activity_camera">CameraActivity</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_feature_selector">FeatureSelectorActivity</string>
+    <string name="title_activity_select">SelectActivity</string>
+
 </resources>

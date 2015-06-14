@@ -71,8 +71,8 @@
             android:value="AIzaSyDyEe2dpWCgbMChsCmn2UglB3fEfvBp4ko" />
 
         <activity
-            android:name=".FeatureSelectorActivity"
-            android:label="@string/title_activity_feature_selector" >
+            android:name=".SelectActivity"
+            android:label="@string/title_activity_select" >
         </activity>
     </application>
 
