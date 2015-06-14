@@ -18,6 +18,12 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_select">SelectActivity</string>
+<<<<<<< HEAD
     <string name="title_activity_camera_and_feature_select">CameraAndFeatureSelect</string>
 
+=======
+    <string name="title_activity_upload_to_server">UploadToServerActivity</string>
+
+    <string name="do_you_upload">Do you want to know what this is?</string>
+>>>>>>> master
 </resources>

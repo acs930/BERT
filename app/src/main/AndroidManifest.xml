@@ -75,8 +75,13 @@
             android:label="@string/title_activity_select" >
         </activity>
         <activity
+<<<<<<< HEAD
             android:name=".CameraAndFeatureSelectActivity"
             android:label="@string/title_activity_camera_and_feature_select" >
+=======
+            android:name=".UploadToServerActivity"
+            android:label="@string/title_activity_upload_to_server" >
+>>>>>>> master
         </activity>
     </application>
 
