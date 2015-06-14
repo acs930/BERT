@@ -41,6 +41,7 @@ public class CameraActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
+        Log.d("cam","In Cam Activity");
         b1 = (ImageButton)findViewById(R.id.imageButton6);
         iv = (ImageView)findViewById(R.id.imageView);
 
@@ -58,7 +59,7 @@ public class CameraActivity extends Activity {
 
         Bitmap bp = (Bitmap)data.getExtras().get("data");
         iv.setImageBitmap(bp);
-        Intent i = new Intent(CameraActivity.this, SelectActivity.class);
+        Intent i = new Intent(CameraActivity.this, FeatureSelectorActivity.class);
         ByteArrayOutputStream bs = new ByteArrayOutputStream();
 
         bp.compress(Bitmap.CompressFormat.PNG, 100, bs);
@@ -94,7 +95,7 @@ public class CameraActivity extends Activity {
     }
 
     public void sendMessage(View view) {
-        Intent intent = new Intent(CameraActivity.this, SelectActivity.class);
+        Intent intent = new Intent(CameraActivity.this, FeatureSelectorActivity.class);
         startActivity(intent);
     }
 }
