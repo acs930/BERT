@@ -18,5 +18,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_select">SelectActivity</string>
+    <string name="title_activity_camera_and_feature_select">CameraAndFeatureSelect</string>
 
 </resources>

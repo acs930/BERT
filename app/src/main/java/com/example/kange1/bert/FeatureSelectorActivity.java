@@ -1,22 +1,33 @@
 package com.example.kange1.bert;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.google.android.gms.appdatasearch.Feature;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Mat;
+import org.opencv.android.Utils;
+import org.opencv.core.*;
+import org.opencv.imgproc.Imgproc;
 
 
 public class FeatureSelectorActivity extends Activity implements View.OnTouchListener{
 
+    //I may just do the camera work with openCV as well for uniform image quality and manipulations
     private static final String  TAG = FeatureSelectorActivity.class.getSimpleName();
+    ImageView iv;
 
     private BaseLoaderCallback mOpenCVCallBack = new BaseLoaderCallback(this) {
         @Override
@@ -24,11 +35,14 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS:
                 {
-                    Log.i(TAG, "OpenCV loaded successfully");
+                    Log.d(TAG, "OpenCV loaded successfully");
+                    iv.setOnTouchListener(FeatureSelectorActivity.this);
+
 
                 } break;
                 default:
                 {
+                    Log.d(TAG,"Problem");
                     super.onManagerConnected(status);
                 } break;
             }
@@ -39,7 +53,26 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feature_selector);
-        Log.d(TAG, "Logging is working");
+
+        iv = (ImageView)findViewById(R.id.selectView);
+
+       // Toast.makeText(this.getApplicationContext(),"Hello", Toast.LENGTH_LONG).show();
+        if(getIntent().hasExtra("byteArray")) {
+            ImageView previewThumbnail = new ImageView(this);
+            Bitmap bp = BitmapFactory.decodeByteArray(getIntent().getByteArrayExtra("byteArray"),
+                    0, getIntent().getByteArrayExtra("byteArray").length);
+            previewThumbnail.setImageBitmap(bp);
+            iv.setImageBitmap(bp);
+        }
+
+        if (!OpenCVLoader.initDebug()) {
+            Log.d(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
+            OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mOpenCVCallBack);
+        } else {
+            Log.d(TAG, "OpenCV library found inside package. Using it!");
+            mOpenCVCallBack.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+        }
+
     }
 
 
@@ -73,6 +106,9 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
         xCoord = (int)event.getX();
         yCoord = (int)event.getY();
 
+        String toastMessage = "Hello, you clicked" + xCoord + "," + yCoord;
+
+        Toast.makeText(this.getApplicationContext(),toastMessage, Toast.LENGTH_SHORT).show();
         Log.d(TAG, "x: " + xCoord + " y: " + yCoord);
         return true;
     }
