@@ -121,7 +121,7 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
                 bundle.putIntegerArrayList("yData", yPoints);
 
                 //intent.putExtras(bundle);
-                intent.putExtra("byteArray", getIntent().hasExtra("byteArray"));
+                intent.putExtra("byteArray", getIntent().getByteArrayExtra("byteArray"));
                 intent.putExtras(bundle);
 
                 startActivity(intent);
