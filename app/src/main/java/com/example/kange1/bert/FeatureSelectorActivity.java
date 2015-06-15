@@ -44,7 +44,6 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
     public int layoutWidth, layoutHeight;
     public int touchCount = 0;
 
-
     /*public class pointInfo{
         public int xCoord;
         public int yCoord;
@@ -70,7 +69,6 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
                 {
                     Log.d(TAG, "OpenCV loaded successfully");
                     iv.setOnTouchListener(FeatureSelectorActivity.this);
-
 
                 } break;
                 default:
@@ -108,7 +106,6 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
                 Log.d(TAG,"ivX: " + iv.getWidth() + " ivY: " + iv.getHeight());
                 layoutWidth = iv.getWidth();
                 layoutHeight = iv.getHeight();
-
             }
         });
 
@@ -128,7 +125,6 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
                 intent.putExtras(bundle);
 
                 startActivity(intent);
-
             }
         });
 
