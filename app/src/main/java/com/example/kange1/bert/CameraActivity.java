@@ -41,7 +41,7 @@ public class CameraActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
-        Log.d("cam","In Cam Activity");
+
         b1 = (ImageButton)findViewById(R.id.imageButton6);
         iv = (ImageView)findViewById(R.id.imageView);
 
@@ -50,6 +50,7 @@ public class CameraActivity extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, 0);
+                Log.d("cam","In Cam Activity");
             }
         });
     }

@@ -27,6 +27,7 @@ import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -38,6 +39,8 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
     //public ArrayList <pointInfo> pointsOfInterest = new ArrayList<pointInfo>();
     public ArrayList<Integer> xPoints = new ArrayList<Integer>();
     public ArrayList<Integer> yPoints = new ArrayList<Integer>();
+
+
     Bitmap imageDrawOverlay;
     Canvas imageOverlay;
     Paint color = new Paint();
