@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -43,6 +44,8 @@ public class UploadToServerActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_to_server);
 
+        b1 = (Button)findViewById(R.id.button);
+
         Intent intent = getIntent();
 
         xPoint = intent.getIntegerArrayListExtra("xData");
@@ -58,7 +61,6 @@ public class UploadToServerActivity extends Activity {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -74,9 +76,12 @@ public class UploadToServerActivity extends Activity {
     public boolean uploadToServer() {
         try {
             HttpClient httpclient = new DefaultHttpClient();
+
             HttpPost httpPost = new HttpPost(urlServer);
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            Toast.makeText(this.getApplicationContext(), "UGHGHGHGHG", Toast.LENGTH_LONG).show();
             HttpResponse response = httpclient.execute(httpPost);
+            Toast.makeText(this.getApplicationContext(), "WOh", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
         }
