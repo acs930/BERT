@@ -174,7 +174,7 @@ String responseFromServer;
             nameValuePairs.add(new BasicNameValuePair("xData", yDat));
             Log.d(TAG, "xp: " + xPoint.toString());
             Log.d(TAG, "yp: " + yPoint.toString());
-            Log.d(TAG, "im: " + imageData);
+            Log.d(TAG, "im: " + imageData.length());
 
 
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));

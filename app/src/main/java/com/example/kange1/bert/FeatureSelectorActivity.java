@@ -94,10 +94,10 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
 
        // Toast.makeText(this.getApplicationContext(),"Hello", Toast.LENGTH_LONG).show();
         if(getIntent().hasExtra("byteArray")) {
-            ImageView previewThumbnail = new ImageView(this);
+            //ImageView previewThumbnail = new ImageView(this);
             Bitmap bp = BitmapFactory.decodeByteArray(getIntent().getByteArrayExtra("byteArray"),
                     0, getIntent().getByteArrayExtra("byteArray").length);
-            previewThumbnail.setImageBitmap(bp);
+            //previewThumbnail.setImageBitmap(bp);
             iv.setImageBitmap(bp);
         }
         //Sets up layer over the image to points on
