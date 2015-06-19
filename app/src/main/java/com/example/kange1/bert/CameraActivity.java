@@ -1,6 +1,8 @@
 package com.example.kange1.bert;
 
 import android.app.Activity;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
@@ -35,37 +37,51 @@ public class CameraActivity extends Activity {
 
     ImageButton b1;
     ImageView iv;
+    private static final String  TAG = CameraActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-
+        Log.d("cam", "In Cam Activity");
 
         b1 = (ImageButton)findViewById(R.id.imageButton6);
         iv = (ImageView)findViewById(R.id.imageView);
+        final File tempFile = getTempFile(this);
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
                 startActivityForResult(intent, 0);
                 Log.d("cam","In Cam Activity");
-            }
+           }
         });
     }
 
+    private File getTempFile(Context context)
+    {
+
+        final File tempPath = new File(Environment.getExternalStorageDirectory(), context.getPackageName());
+        if(!tempPath.exists())
+            tempPath.mkdir();
+
+
+        return new File(tempPath, "image.tmp");
+
+    }
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        Bitmap bp = (Bitmap)data.getExtras().get("data");
-        iv.setImageBitmap(bp);
+        //super.onActivityResult(requestCode, resultCode, data);
+
+        final File file = getTempFile(this);
         Intent i = new Intent(CameraActivity.this, FeatureSelectorActivity.class);
-        ByteArrayOutputStream bs = new ByteArrayOutputStream();
-
-        bp.compress(Bitmap.CompressFormat.JPEG, 100, bs);
-        i.putExtra("byteArray", bs.toByteArray());
+        i.putExtra("imagePath", file.getAbsolutePath());
         startActivity(i);
+
+
     }
 
     @Override

@@ -6,7 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +29,8 @@ import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -87,18 +91,27 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feature_selector);
-
+Log.wtf(TAG, "lol made it");
         iv = (ImageView)findViewById(R.id.selectView);
         Button nextButton = (Button)findViewById(R.id.nextClick);
 
 
        // Toast.makeText(this.getApplicationContext(),"Hello", Toast.LENGTH_LONG).show();
-        if(getIntent().hasExtra("byteArray")) {
-            //ImageView previewThumbnail = new ImageView(this);
-            Bitmap bp = BitmapFactory.decodeByteArray(getIntent().getByteArrayExtra("byteArray"),
-                    0, getIntent().getByteArrayExtra("byteArray").length);
-            //previewThumbnail.setImageBitmap(bp);
+        if(getIntent().hasExtra("imagePath")) {
+
+            File file = new File(getIntent().getStringExtra("imagePath"));
+            Bitmap bp = null;
+            try {
+                bp = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d(TAG, "Error: " + e.toString());
+            }
+
+            Log.d(TAG, "Width: " + bp.getWidth() + " Height: " + bp.getHeight());
             iv.setImageBitmap(bp);
+
         }
         //Sets up layer over the image to points on
         iv.post(new Runnable()
@@ -124,7 +137,7 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
                 bundle.putIntegerArrayList("yData", yPoints);
 
                 //intent.putExtras(bundle);
-                intent.putExtra("byteArray", getIntent().getByteArrayExtra("byteArray"));
+                intent.putExtra("imagePath", getIntent().getStringExtra("imagePath"));
                 intent.putExtras(bundle);
 
                 startActivity(intent);

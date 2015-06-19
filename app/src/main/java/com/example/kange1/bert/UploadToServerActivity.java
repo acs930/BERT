@@ -2,6 +2,8 @@ package com.example.kange1.bert;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -26,6 +28,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -38,6 +42,7 @@ public class UploadToServerActivity extends Activity {
 
     ArrayList<Integer> xPoint, yPoint;
     byte[] img;
+    String imagePath;
     String imageData;
     Button b1;
 
@@ -59,7 +64,25 @@ String responseFromServer;
 
         xPoint = intent.getIntegerArrayListExtra("xData");
         yPoint = intent.getIntegerArrayListExtra("yData");
-        img = intent.getByteArrayExtra("byteArray");
+        imagePath = intent.getStringExtra("imagePath");
+
+        Bitmap bp = null;
+        if(getIntent().hasExtra("imagePath")) {
+
+            File file = new File(getIntent().getStringExtra("imagePath"));
+
+            try {
+                bp = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d(TAG, "Error: " + e.toString());
+            }
+        }
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        img = stream.toByteArray();
+
 
 
 
@@ -166,6 +189,7 @@ String responseFromServer;
             imageData = Base64.encodeToString(img, Base64.DEFAULT);
             String xDat = xPoint.toString();
             String yDat = yPoint.toString();
+
 
 
 
