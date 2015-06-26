@@ -75,16 +75,17 @@
             android:label="@string/title_activity_select" >
         </activity>
         <activity
-
             android:name=".UploadToServerActivity"
             android:label="@string/title_activity_upload_to_server" >
         </activity>
-        
         <activity
             android:name=".CameraAndFeatureSelectActivity"
             android:label="stringtitle_activity_camera_and_feature_select" >
         </activity>
-
+        <activity
+            android:name=".BestiaryDetailActivity"
+            android:label="@string/title_activity_bestiary_detail" >
+        </activity>
     </application>
 
 </manifest>
