@@ -53,6 +53,7 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
     RelativeLayout layout;
 
     Bitmap imageDrawOverlay;
+    Bitmap bp = null;
     Canvas imageOverlay;
     Paint color = new Paint();
 
@@ -98,7 +99,7 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
         if(getIntent().hasExtra("imagePath")) {
 
             File file = new File(getIntent().getStringExtra("imagePath"));
-            Bitmap bp = null;
+
             try {
                 bp = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
 
@@ -246,13 +247,13 @@ public class DrawView extends SurfaceView
 
 
 
-                Bitmap tempBitmap = Bitmap.createBitmap(imageDrawOverlay.getWidth(), imageDrawOverlay.getHeight(), Bitmap.Config.RGB_565);
+                Bitmap tempBitmap = Bitmap.createBitmap(bp.getWidth(), bp.getHeight(), Bitmap.Config.RGB_565);
                 Canvas tempCanvas = new Canvas(tempBitmap);
-                tempCanvas.drawBitmap(imageDrawOverlay, 0, 0, null);
+                tempCanvas.drawBitmap(bp, 0, 0, null);
                 tempCanvas.drawCircle((float) xCoord+40, (float) yCoord+40, 50, color);
 
                 tempCanvas.drawCircle(100, 100, 50, color);
-                tempCanvas.drawCircle(imageDrawOverlay.getWidth(), imageDrawOverlay.getHeight(), 50, color);
+                tempCanvas.drawCircle(bp.getWidth(), bp.getHeight(), 50, color);
                 tempCanvas.drawCircle(1400, 2000, 50, color);
 
 
