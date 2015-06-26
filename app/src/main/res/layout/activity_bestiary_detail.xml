@@ -18,15 +18,9 @@
         android:layout_height="wrap_content"
         android:text=""
         android:id="@+id/textView7"
+        android:textSize="20dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Pa"
-        android:id="@+id/textView8"
-        android:layout_above="@+id/textView7"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="73dp" />
+        android:layout_marginBottom="55dp" />
+
 </RelativeLayout>
