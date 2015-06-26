@@ -1,11 +1,14 @@
 package com.example.kange1.bert;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -13,9 +16,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.google.android.gms.appdatasearch.Feature;
@@ -44,30 +50,16 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
     public ArrayList<Integer> xPoints = new ArrayList<Integer>();
     public ArrayList<Integer> yPoints = new ArrayList<Integer>();
 
+    RelativeLayout layout;
 
     Bitmap imageDrawOverlay;
     Canvas imageOverlay;
     Paint color = new Paint();
+
     public int layoutWidth, layoutHeight;
     public int touchCount = 0;
 
-    /*public class pointInfo{
-        public int xCoord;
-        public int yCoord;
-
-        public pointInfo()
-        {
-            xCoord = 0;
-            yCoord = 0;
-        }
-        public pointInfo(int x, int y)
-        {
-            xCoord = x;
-            yCoord = y;
-        }
-
-    }*/
-
+    //intialize openCV (may not use)
     private BaseLoaderCallback mOpenCVCallBack = new BaseLoaderCallback(this) {
         @Override
         public void onManagerConnected(int status) {
@@ -91,12 +83,18 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_feature_selector);
-Log.wtf(TAG, "lol made it");
+        //layout = (RelativeLayout) findViewById(R.id.layout);
+        //layout.addView(new DrawView(this));
+
+
         iv = (ImageView)findViewById(R.id.selectView);
+        color.setColor(Color.RED);
         Button nextButton = (Button)findViewById(R.id.nextClick);
 
 
-       // Toast.makeText(this.getApplicationContext(),"Hello", Toast.LENGTH_LONG).show();
+
+
+        //Gets image and displays it
         if(getIntent().hasExtra("imagePath")) {
 
             File file = new File(getIntent().getStringExtra("imagePath"));
@@ -111,19 +109,23 @@ Log.wtf(TAG, "lol made it");
 
             Log.d(TAG, "Width: " + bp.getWidth() + " Height: " + bp.getHeight());
             iv.setImageBitmap(bp);
-
+            imageDrawOverlay = bp;
         }
+
+
         //Sets up layer over the image to points on
         iv.post(new Runnable()
         {
             @Override
         public void run()
             {
-                Log.d(TAG,"ivX: " + iv.getWidth() + " ivY: " + iv.getHeight());
                 layoutWidth = iv.getWidth();
                 layoutHeight = iv.getHeight();
+                //SetUpCanvas();
             }
         });
+
+
 
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +133,7 @@ Log.wtf(TAG, "lol made it");
                 Intent intent = new Intent();
                 intent.setClass(FeatureSelectorActivity.this, UploadToServerActivity.class);
 
+                Log.d(TAG, "x: " + xPoints.toString() + " y: " + yPoints.toString());
                 Bundle bundle = new Bundle();
                 ByteArrayOutputStream bs = new ByteArrayOutputStream();
                 bundle.putIntegerArrayList("xData", xPoints);
@@ -144,9 +147,6 @@ Log.wtf(TAG, "lol made it");
             }
         });
 
-
-
-
         if (!OpenCVLoader.initDebug()) {
             //Log.d(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
             OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mOpenCVCallBack);
@@ -158,6 +158,38 @@ Log.wtf(TAG, "lol made it");
         Toast.makeText(this.getApplicationContext(), "Tap Eyes", Toast.LENGTH_SHORT).show();
 
     }
+
+    public void SetUpCanvas()
+    {
+        imageDrawOverlay =  Bitmap.createBitmap(layoutWidth, layoutHeight,  Bitmap.Config.RGB_565);
+    }
+
+
+/* bigger pain in the ass cause it's over an image view
+public class DrawView extends SurfaceView
+{
+    private final SurfaceHolder surfaceHolder;
+    private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
+    public DrawView(Context context) {
+        super(context);
+        surfaceHolder = getHolder();
+        paint.setColor(Color.BLUE);
+        paint.setStyle(Paint.Style.FILL);
+
+    }
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if(event.getAction() == MotionEvent.ACTION_UP) {
+            if (surfaceHolder.getSurface().isValid() && touchCount < 3) {
+                Canvas canvas = surfaceHolder.lockCanvas();
+                canvas.drawCircle(event.getX(), event.getY(), 50, paint);
+                surfaceHolder.unlockCanvasAndPost(canvas);
+            }
+        }
+        return false;
+    }
+}*/
 
 
     @Override
@@ -187,37 +219,56 @@ Log.wtf(TAG, "lol made it");
 
         int xCoord, yCoord;
 
-        xCoord = (int)event.getX();
-        yCoord = (int)event.getY();
 
-        switch(touchCount) {
-            case 0:
-                break;
-            case 1:
-                Toast.makeText(this.getApplicationContext(), "Tap Tail", Toast.LENGTH_SHORT).show();
-                break;
-            case 2:
-                Toast.makeText(this.getApplicationContext(), "Tap Feet", Toast.LENGTH_SHORT).show();
-                break;
-            default:
-                Toast.makeText(this.getApplicationContext(), "Please press next", Toast.LENGTH_SHORT).show();
-                return true;
+    //Records point when user removes finger
+    if(event.getAction() == MotionEvent.ACTION_UP) {
+            xCoord = (int) event.getX();
+            yCoord = (int) event.getY();
 
+            switch (touchCount) {
+                case 0:
+                    break;
+                case 1:
+                    Toast.makeText(this.getApplicationContext(), "Tap Tail", Toast.LENGTH_SHORT).show();
+                    
+                    break;
+                case 2:
+                    Toast.makeText(this.getApplicationContext(), "Tap Feet", Toast.LENGTH_SHORT).show();
+                    break;
+                case 3:
+                    Toast.makeText(this.getApplicationContext(), "Please press next", Toast.LENGTH_SHORT).show();
+                    break;
+
+            }
+
+
+        //problem, image might be resizing to fit screen and cause fuckups in point placing
+
+
+
+                Bitmap tempBitmap = Bitmap.createBitmap(imageDrawOverlay.getWidth(), imageDrawOverlay.getHeight(), Bitmap.Config.RGB_565);
+                Canvas tempCanvas = new Canvas(tempBitmap);
+                tempCanvas.drawBitmap(imageDrawOverlay, 0, 0, null);
+                tempCanvas.drawCircle((float) xCoord+40, (float) yCoord+40, 50, color);
+
+                tempCanvas.drawCircle(100, 100, 50, color);
+                tempCanvas.drawCircle(imageDrawOverlay.getWidth(), imageDrawOverlay.getHeight(), 50, color);
+                tempCanvas.drawCircle(1400, 2000, 50, color);
+
+
+                iv.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
+            if (touchCount < 3) {
+                xPoints.add(xCoord);
+                yPoints.add(yCoord);
+            }
+            ++touchCount;
+            //Toast.makeText(this.getApplicationContext(),toastMessage, Toast.LENGTH_SHORT).show();
+            //Log.d(TAG, "x: " + xCoord + " y: " + yCoord);
+            return true;
         }
-        //String toastMessage = "Hello, you clicked" + xCoord + "," + yCoord;
-
-        //imageDrawOverlay = Bitmap.createBitmap(layoutWidth, layoutHeight, Bitmap.Config.ARGB_8888);
-        //imageOverlay = new Canvas(imageDrawOverlay);
-        //color.setColor(0);
-        //imageOverlay.drawCircle((float)xCoord, (float)yCoord, 2, color);
-
-        xPoints.add(xCoord);
-        yPoints.add(yCoord);
-        ++touchCount;
-        //Toast.makeText(this.getApplicationContext(),toastMessage, Toast.LENGTH_SHORT).show();
-        //Log.d(TAG, "x: " + xCoord + " y: " + yCoord);
+    else
         return true;
-    }
 
+    }
 
 }
