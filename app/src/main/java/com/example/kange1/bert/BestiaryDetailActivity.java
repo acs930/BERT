@@ -1,6 +1,8 @@
 package com.example.kange1.bert;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +14,7 @@ public class BestiaryDetailActivity extends Activity {
 
     ImageView iv;
     TextView tv;
+    Bitmap testBit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +24,10 @@ public class BestiaryDetailActivity extends Activity {
         iv = (ImageView)findViewById(R.id.imageView4);
         tv = (TextView)findViewById(R.id.textView7);
 
+        testBit = BitmapFactory.decodeResource(getResources(), R.drawable.test_robin);
+
         tv.setText(getIntent().getStringExtra("aniName"));
+        iv.setImageBitmap(testBit);
         //iv.setImageBitmap(getIntent().getStringExtra("aniPic"));
         //iv.setImageBitmap(getIntent().getParcelableExtra("testPic"));
     }

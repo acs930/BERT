@@ -23,8 +23,12 @@ import java.util.List;
 public class BestiaryActivity extends Activity {
 
     String outName, outPicture;
-    Bitmap testPicture, defaultImage;
-    String aniList[] = {"American Robin", "Blue Jay", "Canada Goose", "Common Grackles"};
+    Bitmap americanRobin, blueJay, canadaGoose, commonGrackle, downyWoodpecker, mallard, mourningDove, pigeon, easternNewEnglandCottontail, graySquirrel;
+    String[] aniList = {"American Robin", "Blue Jay", "Canada Goose", "Common Grackles", "DownyWoodpecker", "Mallard", "Pigeon",
+            "Eastern New England Cottontail", "Gray Squirrel"};
+    Bitmap[] bitmapList = {americanRobin, blueJay, canadaGoose, commonGrackle, downyWoodpecker, mallard, mourningDove, pigeon,
+            easternNewEnglandCottontail, graySquirrel};
+
 
     private final String TAG = "myApp";
 
@@ -33,63 +37,83 @@ public class BestiaryActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bestiary);
 
-        //Bitmap defaultImage;
-        defaultImage = BitmapFactory.decodeResource(getResources(), R.drawable.american_robin);
+        americanRobin = BitmapFactory.decodeResource(getResources(), R.drawable.american_robin);
+        blueJay = BitmapFactory.decodeResource(getResources(), R.drawable.blue_jay);
+        canadaGoose = BitmapFactory.decodeResource(getResources(), R.drawable.canada_goose);
+        commonGrackle = BitmapFactory.decodeResource(getResources(), R.drawable.common_grackle);
+        downyWoodpecker = BitmapFactory.decodeResource(getResources(), R.drawable.downy_woodpecker);
+        mallard = BitmapFactory.decodeResource(getResources(), R.drawable.mallard);
+        mourningDove = BitmapFactory.decodeResource(getResources(), R.drawable.mourning_dove);
+        pigeon = BitmapFactory.decodeResource(getResources(), R.drawable.pigeon);
+        easternNewEnglandCottontail = BitmapFactory.decodeResource(getResources(), R.drawable.eastern_new_england_cottontail);
+        graySquirrel = BitmapFactory.decodeResource(getResources(), R.drawable.gray_squirrel);
 
         List<ListItem> list = new ArrayList<ListItem>();
 
+        /*
+        for (int i=0; i<10; i++) {
+            ListItem item[i] = new ListItem();
+            item[i].image = aniList[i];
+        }
+        */
+
+        int sum = 10;
+        ListItem[] items = new ListItem[sum];
+
+        for (int i=0; i<sum; i++) {
+            items[i].image = bitmapList[i];
+
+        }
+
         ListItem item1 = new ListItem();
-        item1.image = defaultImage;
+        item1.image = americanRobin;
         item1.name = "American Robin";
         list.add(item1);
 
         ListItem item2 = new ListItem();
-        item2.image = defaultImage;
+        item2.image = blueJay;
         item2.name = "Blue Jay";
         list.add(item2);
 
         ListItem item3 = new ListItem();
-        item3.image = defaultImage;
+        item3.image = canadaGoose;
         item3.name = "Canada Goose";
         list.add(item3);
 
         ListItem item4 = new ListItem();
-        item4.image = defaultImage;
+        item4.image = commonGrackle;
         item4.name = "Common Grackles";
         list.add(item4);
 
         ListItem item5 = new ListItem();
-        item5.image = defaultImage;
+        item5.image = downyWoodpecker;
         item5.name = "Downy Woodpecker";
         list.add(item5);
 
         ListItem item6 = new ListItem();
-        item6.image = defaultImage;
+        item6.image = mallard;
         item6.name = "Mallard";
         list.add(item6);
 
         ListItem item7 = new ListItem();
-        item7.image = defaultImage;
+        item7.image = mourningDove;
         item7.name = "Mourning Doves";
         list.add(item7);
 
         ListItem item8 = new ListItem();
-        item8.image = defaultImage;
+        item8.image = pigeon;
         item8.name = "Pigeons";
         list.add(item8);
 
         ListItem item9 = new ListItem();
-        item9.image = defaultImage;
+        item9.image = graySquirrel;
         item9.name = "Gray Squrrel";
         list.add(item9);
 
-        /*
-        if (list == item1) {
-            outName = "AmericanRobin";
-            outPicture = defaultImage.toString();
-            testPicture = defaultImage;
-        }
-        */
+        ListItem item10 = new ListItem();
+        item10.image = easternNewEnglandCottontail;
+        item10.name = "Eastern New England Cottontail";
+        list.add(item10);
 
         ListItemAdapter adapter;
         adapter = new ListItemAdapter(this, 0, list);
@@ -97,38 +121,17 @@ public class BestiaryActivity extends Activity {
         ListView listView = (ListView)findViewById(R.id.ListView01);
         listView.setAdapter(adapter);
 
-        /*
-        Intent intent = new Intent(BestiaryActivity.this, BestiaryDetailActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putString("aniName", outName);
-        bundle.putString("aniPic", outPicture);
-        bundle.putParcelable("testPic", testPicture);
-
-        intent.putExtras(bundle);
-        startActivity(intent);
-        */
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                if (position == 0) {
-                    outName = "American Robin";
-                    Intent intent = new Intent(BestiaryActivity.this, BestiaryDetailActivity.class);
-
-                    Bundle bundle = new Bundle();
-                    bundle.putString("aniName", outName);
-
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                } else if (position == 1) {
-                    outName = "Blue Jay";
-                    Intent intent = new Intent(BestiaryActivity.this, BestiaryDetailActivity.class);
-
-                    Bundle bundle = new Bundle();
-                    bundle.putString("aniName", outName);
-
-                    intent.putExtras(bundle);
-                    startActivity(intent);
+                for (int i=0; i<10; i++) {
+                    if (position == i) {
+                        outName = aniList[i];
+                        Intent intent = new Intent(BestiaryActivity.this, BestiaryDetailActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("aniName", outName);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                    }
                 }
             }
         });
