@@ -46,7 +46,7 @@ public class UploadToServerActivity extends Activity {
     String imageData;
     Button b1;
 
-    String urlServer = "http://52.7.19.214/imageHandler.php";
+    String urlServer = "http://52.2.53.183/imageHandler.php";
     //HttpURLConnection connection = null;
 
     HttpURLConnection con = null;
