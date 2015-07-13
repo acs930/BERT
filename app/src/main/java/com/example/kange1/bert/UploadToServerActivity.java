@@ -195,7 +195,7 @@ String responseFromServer;
 
             nameValuePairs.add(new BasicNameValuePair("imageData", imageData));
             nameValuePairs.add(new BasicNameValuePair("xData", xDat));
-            nameValuePairs.add(new BasicNameValuePair("xData", yDat));
+            nameValuePairs.add(new BasicNameValuePair("yData", yDat));
             Log.d(TAG, "xp: " + xPoint.toString());
             Log.d(TAG, "yp: " + yPoint.toString());
             Log.d(TAG, "im: " + imageData.length());
