@@ -1,6 +1,10 @@
 package com.example.kange1.bert;
 
 import android.app.Activity;
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.Menu;
@@ -35,12 +39,12 @@ public class CameraActivity extends Activity {
 
     ImageButton b1;
     ImageView iv;
+    public Location test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-
 
         b1 = (ImageButton)findViewById(R.id.imageButton6);
         iv = (ImageView)findViewById(R.id.imageView);
@@ -53,6 +57,10 @@ public class CameraActivity extends Activity {
                 Log.d("cam","In Cam Activity");
             }
         });
+
+        LocationManager mlocManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        LocationListener mlocListener = new MyLocationListener();
+        mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, mlocListener);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -73,30 +81,30 @@ public class CameraActivity extends Activity {
         super.onDestroy();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_camera, menu);
-        return true;
-    }
+    public class MyLocationListener implements LocationListener {
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        @Override
+        public void onLocationChanged(Location loc) {
+            loc.getLatitude();
+            loc.getLongitude();
+            String Text = "Lat = " + loc.getLatitude() + "|Long = " + loc.getLongitude();
+            Toast.makeText(getApplicationContext(), Text, Toast.LENGTH_SHORT).show();
+            test = loc;
         }
 
-        return super.onOptionsItemSelected(item);
-    }
+        @Override
+        public void onProviderDisabled(String provider) {
+            Toast.makeText(getApplicationContext(), "GPS Disabled", Toast.LENGTH_SHORT).show();
+        }
 
-    public void sendMessage(View view) {
-        Intent intent = new Intent(CameraActivity.this, FeatureSelectorActivity.class);
-        startActivity(intent);
+        @Override
+        public void onProviderEnabled(String provider) {
+            Toast.makeText(getApplicationContext(), "GPS Enabled", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
     }
 }

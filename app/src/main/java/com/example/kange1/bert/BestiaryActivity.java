@@ -3,10 +3,12 @@ package com.example.kange1.bert;
 import android.app.Activity;
 import android.app.LauncherActivity;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -15,8 +17,19 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +41,10 @@ public class BestiaryActivity extends Activity {
             "Eastern New England Cottontail", "Gray Squirrel"};
     Bitmap[] bitmapList = {americanRobin, blueJay, canadaGoose, commonGrackle, downyWoodpecker, mallard, mourningDove, pigeon,
             easternNewEnglandCottontail, graySquirrel};
+
+    String urlServer = "http://52.3.50.112/.php";
+    HttpURLConnection con = null;
+    String responseFromServer, animalId;
 
 
     private final String TAG = "myApp";
@@ -50,20 +67,16 @@ public class BestiaryActivity extends Activity {
 
         List<ListItem> list = new ArrayList<ListItem>();
 
+        //int sum = 10;
+        //ListItem[] item = new ListItem[sum];
         /*
-        for (int i=0; i<10; i++) {
-            ListItem item[i] = new ListItem();
-            item[i].image = aniList[i];
+        for (int i=0; i<sum; i++) {
+            ListItem[] item = new ListItem[sum];
+            item[i].image = bitmapList[i];
+            item[i].name = aniList[i];
+            list.add(item[i]);
         }
         */
-
-        int sum = 10;
-        ListItem[] items = new ListItem[sum];
-
-        for (int i=0; i<sum; i++) {
-            items[i].image = bitmapList[i];
-
-        }
 
         ListItem item1 = new ListItem();
         item1.image = americanRobin;
@@ -123,6 +136,15 @@ public class BestiaryActivity extends Activity {
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Thread t = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        uploadToServer();
+                    }
+                });
+                t.start();
+
                 for (int i=0; i<10; i++) {
                     if (position == i) {
                         outName = aniList[i];
@@ -137,25 +159,27 @@ public class BestiaryActivity extends Activity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_bestiary, menu);
+    @SuppressWarnings("deprecation")
+    public boolean uploadToServer() {
+        try {
+            String responseString = null;
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httpPost = new HttpPost(urlServer);
+
+            List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+            String aniId = animalId;
+
+            nameValuePairs.add(new BasicNameValuePair("aniData", aniId));
+
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            HttpResponse response = httpclient.execute(httpPost);
+
+            String responseBody = EntityUtils.toString(response.getEntity());
+            responseFromServer = responseBody;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 }
