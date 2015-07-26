@@ -28,6 +28,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -42,12 +45,14 @@ public class BestiaryActivity extends Activity {
     Bitmap[] bitmapList = {americanRobin, blueJay, canadaGoose, commonGrackle, downyWoodpecker, mallard, mourningDove, pigeon,
             easternNewEnglandCottontail, graySquirrel};
 
-    String urlServer = "http://52.3.50.112/.php";
+    String urlServer = "http://52.3.50.112/dbConnect.php";
     HttpURLConnection con = null;
-    String responseFromServer, animalId;
 
+    String responseFromServer;
+    int aniNumber;
 
-    private final String TAG = "myApp";
+    private static final String  TAG = BestiaryActivity.class.getSimpleName();
+    //private final String TAG = "myApp";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,22 +142,67 @@ public class BestiaryActivity extends Activity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Thread t = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        uploadToServer();
-                    }
-                });
-                t.start();
-
                 for (int i=0; i<10; i++) {
                     if (position == i) {
+
+                        Thread t = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                uploadToServer();
+                            }
+                        });
+                        t.start();
+
+                        Toast.makeText(BestiaryActivity.this,"Clicked", Toast.LENGTH_SHORT).show();
+
+                        //Replace with URL
+                        /*
+                        String s = "URL";
+                        s += URLEncoder.encode(addr, "UTF-8");
+                        URL url = new URL(s);
+
+                        Scanner scan = new Scanner(url.openStream());
+                        String displayOutput = new String();
+                        while (scan.hasNext())
+                            displayOutput += scan.nextLine();
+                        scan.close();
+                        */
+
+                        String displayOutput = "{\"Animal\" :[{\"Name\":\"American Robin\", \"Type\":\"Bird\" }";
+
+                        try {
+                            JSONObject reader = new JSONObject(displayOutput);
+                            JSONArray displayArray = reader.optJSONArray("Animal");
+
+                            JSONObject displayItem = displayArray.getJSONObject(position);
+
+                            String animalName = displayItem.optString("Name").toString();
+                            String animalType = displayItem.optString("Type").toString();
+
+                            Intent intent = new Intent(BestiaryActivity.this, BestiaryDetailActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("aniString", animalName);
+                            startActivity(intent);
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
                         outName = aniList[i];
                         Intent intent = new Intent(BestiaryActivity.this, BestiaryDetailActivity.class);
                         Bundle bundle = new Bundle();
-                        bundle.putString("aniName", outName);
+                        bundle.putString("aniString", outName);
+                        startActivity(intent);
+
+                        /*
+                        outName = aniList[i];
+                        Intent intent = new Intent(BestiaryActivity.this, BestiaryDetailActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("aniString", outName);
+                        //bundle.putString("aniString", animalName);
                         intent.putExtras(bundle);
                         startActivity(intent);
+                        */
                     }
                 }
             }
@@ -167,19 +217,29 @@ public class BestiaryActivity extends Activity {
             HttpPost httpPost = new HttpPost(urlServer);
 
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-            String aniId = animalId;
 
-            nameValuePairs.add(new BasicNameValuePair("aniData", aniId));
+            nameValuePairs.add(new BasicNameValuePair("aniName", Integer.toString(aniNumber)));
 
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             HttpResponse response = httpclient.execute(httpPost);
 
             String responseBody = EntityUtils.toString(response.getEntity());
+            Log.d(TAG, "animal Name: " + Integer.toString(aniNumber));
+
             responseFromServer = responseBody;
+            Log.d(TAG, ""+response);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return true;
+        /*
+        try {
+            JSONObject jResult = new JSONObject(displayOutput);
+            JSONArray jArray = jResult.getJSONArray("example");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        */
     }
 
 }

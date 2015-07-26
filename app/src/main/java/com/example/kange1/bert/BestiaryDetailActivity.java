@@ -26,7 +26,7 @@ public class BestiaryDetailActivity extends Activity {
 
         testBit = BitmapFactory.decodeResource(getResources(), R.drawable.test_robin);
 
-        tv.setText(getIntent().getStringExtra("aniName"));
+        tv.setText(getIntent().getStringExtra("aniString"));
         iv.setImageBitmap(testBit);
         //iv.setImageBitmap(getIntent().getStringExtra("aniPic"));
         //iv.setImageBitmap(getIntent().getParcelableExtra("testPic"));
