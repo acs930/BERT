@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,6 +34,8 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -45,6 +48,7 @@ public class UploadToServerActivity extends Activity {
 
     ArrayList<Integer> xPoint, yPoint;
     byte[] img;
+    String imagePath;
     String imageData;
     Button b1, b2;
     ImageView v1;
@@ -54,7 +58,7 @@ public class UploadToServerActivity extends Activity {
     private Handler progressBarHandler = new Handler();
     private long fileSize = 0;
 
-    String urlServer = "http://52.7.19.214/imageHandler.php";
+    String urlServer = "http://52.3.50.112/imageHandler.php";
     //HttpURLConnection connection = null;
 
     HttpURLConnection con = null;
@@ -74,7 +78,25 @@ public class UploadToServerActivity extends Activity {
 
         xPoint = intent.getIntegerArrayListExtra("xData");
         yPoint = intent.getIntegerArrayListExtra("yData");
-        img = intent.getByteArrayExtra("byteArray");
+        imagePath = intent.getStringExtra("imagePath");
+
+        Bitmap bp = null;
+        if(getIntent().hasExtra("imagePath")) {
+
+            File file = new File(getIntent().getStringExtra("imagePath"));
+
+            try {
+                bp = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d(TAG, "Error: " + e.toString());
+            }
+        }
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bp.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        img = stream.toByteArray();
+
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +127,7 @@ public class UploadToServerActivity extends Activity {
 
         if(getIntent().hasExtra("byteArray")) {
             //ImageView previewThumbnail = new ImageView(this);
-            Bitmap bp = BitmapFactory.decodeByteArray(getIntent().getByteArrayExtra("byteArray"),
+            bp = BitmapFactory.decodeByteArray(getIntent().getByteArrayExtra("byteArray"),
                     0, getIntent().getByteArrayExtra("byteArray").length);
             //previewThumbnail.setImageBitmap(bp);
             v1.setImageBitmap(bp);
@@ -127,7 +149,7 @@ public class UploadToServerActivity extends Activity {
 
             nameValuePairs.add(new BasicNameValuePair("imageData", imageData));
             nameValuePairs.add(new BasicNameValuePair("xData", xDat));
-            nameValuePairs.add(new BasicNameValuePair("xData", yDat));
+            nameValuePairs.add(new BasicNameValuePair("yData", yDat));
             Log.d(TAG, "xp: " + xPoint.toString());
             Log.d(TAG, "yp: " + yPoint.toString());
             Log.d(TAG, "im: " + imageData.length());
