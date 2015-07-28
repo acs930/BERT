@@ -1,12 +1,14 @@
 package com.example.kange1.bert;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
@@ -15,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +48,11 @@ public class UploadToServerActivity extends Activity {
     String imageData;
     Button b1, b2;
     ImageView v1;
+
+    ProgressDialog progressBar;
+    private int progressBarStatus = 0;
+    private Handler progressBarHandler = new Handler();
+    private long fileSize = 0;
 
     String urlServer = "http://52.7.19.214/imageHandler.php";
     //HttpURLConnection connection = null;
@@ -130,6 +138,49 @@ public class UploadToServerActivity extends Activity {
 
             String responseBody = EntityUtils.toString(response.getEntity());
             responseFromServer = responseBody;
+
+            progressBar = new ProgressDialog(v1.getContext());
+            progressBar.setCancelable(false);
+            progressBar.setMessage("Loading ...");
+            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressBar.setProgress(0);
+            progressBar.setMax(100);
+            progressBar.show();
+
+            //reset progress bar status, filesize
+            progressBarStatus = 0;
+            fileSize = 0;
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (progressBarStatus < 100) {
+                        progressBarStatus = doSomeTasks();
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        progressBarHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressBar.setProgress(progressBarStatus);
+                            }
+                        });
+                    }
+
+                    // file is downloaded
+                    if (progressBarStatus >= 100) {
+                        try {
+                            Thread.sleep(2000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        progressBar.dismiss();
+                    }
+                }
+            }).start();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -142,4 +193,20 @@ public class UploadToServerActivity extends Activity {
 
     public void makeHTTPCall() {
     }
+
+    public int doSomeTasks() {
+        while (fileSize <= 1000000) {
+            fileSize++;
+
+            if (fileSize == 100000) {
+                return 10;
+            } else if (fileSize == 200000) {
+                return 20;
+            } else if (fileSize == 300000) {
+                return 30;
+            }
+        }
+        return 100;
+    }
+
 }

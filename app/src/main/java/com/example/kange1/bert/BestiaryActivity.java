@@ -56,7 +56,7 @@ public class BestiaryActivity extends Activity {
     int aniNumber;
 
     String jsonResult = "";
-    String ani_name = "asd", sci_name = "fgh";
+    String ani_name = "", sci_name = "", typ_name = "", siz_name="", wei_name="", lif_name="", die_name="", hab_name="", des_name="";
 
     private static final String TAG = BestiaryActivity.class.getSimpleName();
 
@@ -163,12 +163,27 @@ public class BestiaryActivity extends Activity {
             JSONObject jsonObj = new JSONObject(jsonResult);
             ani_name = jsonObj.getString("name");
             sci_name = jsonObj.getString("sci_name");
+            typ_name = jsonObj.getString("type");
+            siz_name = jsonObj.getString("size");
+            wei_name = jsonObj.getString("weight");
+            lif_name = jsonObj.getString("lifespan");
+            die_name = jsonObj.getString("diet");
+            hab_name = jsonObj.getString("habitat");
+            des_name = jsonObj.getString("description");
+
             Log.d(TAG, "It gets JSONObject");
             Log.d(TAG, ani_name);
             Intent intent = new Intent(BestiaryActivity.this, BestiaryDetailActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("aniString", ani_name);
             bundle.putString("sciString", sci_name);
+            bundle.putString("typString", typ_name);
+            bundle.putString("sizString", siz_name);
+            bundle.putString("weiString", wei_name);
+            bundle.putString("lifString", lif_name);
+            bundle.putString("dieString", die_name);
+            bundle.putString("habString", hab_name);
+            bundle.putString("desString", des_name);
             bundle.putString("aniInt", String.valueOf(aniNumber));
 
             intent.putExtras(bundle);

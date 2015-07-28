@@ -16,6 +16,15 @@
     <string name="title_activity_gallery">GalleryActivity</string>
     <string name="title_activity_camera">CameraActivity</string>
 
+    <string name="scientific_name"><u>Scientific Name</u></string>
+    <string name="type"><u>Type</u></string>
+    <string name="size"><u>Size</u></string>
+    <string name="weight"><u>Weight</u></string>
+    <string name="lifespan"><u>Lifespan</u></string>
+    <string name="diet"><u>Diet</u></string>
+    <string name="habitat"><u>Habitat</u></string>
+    <string name="description"><u>Description</u></string>
+
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_select">SelectActivity</string>
     <string name="title_activity_upload_to_server">UploadToServerActivity</string>

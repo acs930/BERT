@@ -13,7 +13,7 @@ import android.widget.TextView;
 public class BestiaryDetailActivity extends Activity {
 
     ImageView iv;
-    TextView tv1, tv2;
+    TextView tv1, tv2, tv3, tv4, tv5, tv6, tv7, tv8, tv9;
     Bitmap robin, jay, goose, grackles, woodpecker, mallard, doves, pigeons, squrrel, cottontail, testDefault;
     int picValue;
 
@@ -23,8 +23,15 @@ public class BestiaryDetailActivity extends Activity {
         setContentView(R.layout.activity_bestiary_detail);
 
         iv = (ImageView)findViewById(R.id.imageView4);
-        tv1 = (TextView)findViewById(R.id.textView7);
-        tv2 = (TextView)findViewById(R.id.textView11);
+        tv1 = (TextView)findViewById(R.id.textView1);
+        tv2 = (TextView)findViewById(R.id.textView3);
+        tv3 = (TextView)findViewById(R.id.textView5);
+        tv4 = (TextView)findViewById(R.id.textView7);
+        tv5 = (TextView)findViewById(R.id.textView9);
+        tv6 = (TextView)findViewById(R.id.textView11);
+        tv7 = (TextView)findViewById(R.id.textView13);
+        tv8 = (TextView)findViewById(R.id.textView15);
+        tv9 = (TextView)findViewById(R.id.textView17);
 
         testDefault = BitmapFactory.decodeResource(getResources(), R.drawable.question_mark);
         robin = BitmapFactory.decodeResource(getResources(), R.drawable.american_robin_d);
@@ -40,6 +47,13 @@ public class BestiaryDetailActivity extends Activity {
 
         tv1.setText(getIntent().getStringExtra("aniString"));
         tv2.setText(getIntent().getStringExtra("sciString"));
+        tv3.setText(getIntent().getStringExtra("typString"));
+        tv4.setText(getIntent().getStringExtra("sizString"));
+        tv5.setText(getIntent().getStringExtra("weiString"));
+        tv6.setText(getIntent().getStringExtra("lifString"));
+        tv7.setText(getIntent().getStringExtra("dieString"));
+        tv8.setText(getIntent().getStringExtra("habString"));
+        tv9.setText(getIntent().getStringExtra("desString"));
 
         picValue = Integer.valueOf(getIntent().getStringExtra("aniInt"));
 
