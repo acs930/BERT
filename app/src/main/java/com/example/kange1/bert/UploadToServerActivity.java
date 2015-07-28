@@ -2,6 +2,9 @@ package com.example.kange1.bert;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -11,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,13 +43,14 @@ public class UploadToServerActivity extends Activity {
     ArrayList<Integer> xPoint, yPoint;
     byte[] img;
     String imageData;
-    Button b1;
+    Button b1, b2;
+    ImageView v1;
 
     String urlServer = "http://52.7.19.214/imageHandler.php";
     //HttpURLConnection connection = null;
 
     HttpURLConnection con = null;
-String responseFromServer;
+    String responseFromServer;
     private static final String  TAG = UploadToServerActivity.class.getSimpleName();
 
     @Override
@@ -54,14 +59,14 @@ String responseFromServer;
         setContentView(R.layout.activity_upload_to_server);
 
         b1 = (Button)findViewById(R.id.button);
+        b2 = (Button)findViewById(R.id.button2);
+        v1 = (ImageView)findViewById(R.id.imageView3);
 
         Intent intent = getIntent();
 
         xPoint = intent.getIntegerArrayListExtra("xData");
         yPoint = intent.getIntegerArrayListExtra("yData");
         img = intent.getByteArrayExtra("byteArray");
-
-
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,86 +82,31 @@ String responseFromServer;
                 t.start();
 
                 Toast.makeText(UploadToServerActivity.this,"Upload Successful", Toast.LENGTH_SHORT).show();
-                TextView text = (TextView)findViewById(R.id.textView5);
-                text.setText(responseFromServer);
+                //TextView text = (TextView)findViewById(R.id.textView5);
+                //text.setText(responseFromServer);
             }
         });
 
-    }
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UploadToServerActivity.this, MenuActivity.class);
+                startActivity(intent);
+            }
+        });
 
-    /*private String delimiter = "--";
-    private String boundary =  "SwA"+Long.toString(System.currentTimeMillis())+"SwA";
-    OutputStream os;
-
-    public void connectForMultipart() throws Exception {
-
-        con = (HttpURLConnection) ( new URL(urlServer)).openConnection();
-        con.setRequestMethod("POST");
-        con.setDoInput(true);
-        con.setDoOutput(true);
-        con.setRequestProperty("Connection", "Keep-Alive");
-        con.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
-        con.connect();
-        os = con.getOutputStream();
-    }
-
-    public void addFormPart(String paramName, String value) throws Exception {
-        writeParamData(paramName, value);
-    }
-
-    private void writeParamData(String paramName, String value) throws Exception {
-        os.write( (delimiter + boundary + "\r\n").getBytes());
-        os.write( "Content-Type: text/plain\r\n".getBytes());
-        os.write( ("Content-Disposition: form-data; name=\"" + paramName + "\"\r\n").getBytes());;
-        os.write( ("\r\n" + value + "\r\n").getBytes());
-
-    }
-
-    public void addFilePart(String paramName, String fileName, byte[] data) throws Exception {
-        os.write((delimiter + boundary + "\r\n").getBytes());
-        os.write(("Content-Disposition: form-data; name=\"" + paramName + "\"; filename=\"" + fileName + "\"\r\n").getBytes());
-        os.write(("Content-Type: application/octet-stream\r\n").getBytes());
-        os.write(("Content-Transfer-Encoding: binary\r\n").getBytes());
-        os.write("\r\n".getBytes());
-
-        os.write(data);
-
-        os.write("\r\n".getBytes());
-    }
-
-    private class supLoadToServer extends AsyncTask<String, Void, String>
-    {
-
-
-        @Override
-        protected String doInBackground(String... params) {
-            return null;
+        if(getIntent().hasExtra("byteArray")) {
+            //ImageView previewThumbnail = new ImageView(this);
+            Bitmap bp = BitmapFactory.decodeByteArray(getIntent().getByteArrayExtra("byteArray"),
+                    0, getIntent().getByteArrayExtra("byteArray").length);
+            //previewThumbnail.setImageBitmap(bp);
+            v1.setImageBitmap(bp);
         }
     }
-
-    /*@SuppressWarnings("deprecation")
-    private class uploadFileToServer extends AsyncTask<Void, Integer, String>{
-
-
-        @Override
-        protected String doInBackground(Void... params) {
-            return uploadAction();
-        }
-
-        private String uploadAction(){
-            String responseString = null;
-
-            HttpClient httpclient = new DefaultHttpClient();
-            HttpPost httppost = new HttpPost(urlServer);
-            try {
-                multipartEntity = MultipartEntityBuilder.create();
-        }
-    }*/
 
     @SuppressWarnings("deprecation")
     public boolean uploadToServer() {
         try {
-
             String responseString = null;
             HttpClient httpclient = new DefaultHttpClient();
 
@@ -167,8 +117,6 @@ String responseFromServer;
             String xDat = xPoint.toString();
             String yDat = yPoint.toString();
 
-
-
             nameValuePairs.add(new BasicNameValuePair("imageData", imageData));
             nameValuePairs.add(new BasicNameValuePair("xData", xDat));
             nameValuePairs.add(new BasicNameValuePair("xData", yDat));
@@ -176,32 +124,15 @@ String responseFromServer;
             Log.d(TAG, "yp: " + yPoint.toString());
             Log.d(TAG, "im: " + imageData.length());
 
-
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-            //ResponseHandler<String> responseHandler = new BasicResponseHandler();
-            //String response = httpclient.execute(httpPost, responseHandler);
-
-            //String reverseString = response;
-
 
             HttpResponse response = httpclient.execute(httpPost);
 
             String responseBody = EntityUtils.toString(response.getEntity());
             responseFromServer = responseBody;
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return true;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_upload_to_server, menu);
         return true;
     }
 
@@ -210,21 +141,5 @@ String responseFromServer;
     }
 
     public void makeHTTPCall() {
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }

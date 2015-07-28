@@ -13,8 +13,9 @@ import android.widget.TextView;
 public class BestiaryDetailActivity extends Activity {
 
     ImageView iv;
-    TextView tv;
-    Bitmap testBit;
+    TextView tv1, tv2;
+    Bitmap robin, jay, goose, grackles, woodpecker, mallard, doves, pigeons, squrrel, cottontail, testDefault;
+    int picValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,35 +23,59 @@ public class BestiaryDetailActivity extends Activity {
         setContentView(R.layout.activity_bestiary_detail);
 
         iv = (ImageView)findViewById(R.id.imageView4);
-        tv = (TextView)findViewById(R.id.textView7);
+        tv1 = (TextView)findViewById(R.id.textView7);
+        tv2 = (TextView)findViewById(R.id.textView11);
 
-        testBit = BitmapFactory.decodeResource(getResources(), R.drawable.test_robin);
+        testDefault = BitmapFactory.decodeResource(getResources(), R.drawable.question_mark);
+        robin = BitmapFactory.decodeResource(getResources(), R.drawable.american_robin_d);
+        jay = BitmapFactory.decodeResource(getResources(), R.drawable.blue_jay_d);
+        goose = BitmapFactory.decodeResource(getResources(), R.drawable.canada_goose_d);
+        grackles = BitmapFactory.decodeResource(getResources(), R.drawable.common_grackles_d);
+        woodpecker = BitmapFactory.decodeResource(getResources(), R.drawable.downy_woodpecker_d);
+        mallard = BitmapFactory.decodeResource(getResources(), R.drawable.mallard_d);
+        doves = BitmapFactory.decodeResource(getResources(), R.drawable.mourning_dove_d);
+        pigeons = BitmapFactory.decodeResource(getResources(), R.drawable.pigeon_d);
+        squrrel = BitmapFactory.decodeResource(getResources(), R.drawable.gray_squrrel_d);
+        cottontail = BitmapFactory.decodeResource(getResources(), R.drawable.eastern_new_england_cottontail_d);
 
-        tv.setText(getIntent().getStringExtra("aniString"));
-        iv.setImageBitmap(testBit);
-        //iv.setImageBitmap(getIntent().getStringExtra("aniPic"));
-        //iv.setImageBitmap(getIntent().getParcelableExtra("testPic"));
-    }
+        tv1.setText(getIntent().getStringExtra("aniString"));
+        tv2.setText(getIntent().getStringExtra("sciString"));
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_bestiary_detail, menu);
-        return true;
-    }
+        picValue = Integer.valueOf(getIntent().getStringExtra("aniInt"));
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (picValue) {
+            case 1:
+                iv.setImageBitmap(robin);
+                break;
+            case 2:
+                iv.setImageBitmap(jay);
+                break;
+            case 3:
+                iv.setImageBitmap(goose);
+                break;
+            case 4:
+                iv.setImageBitmap(grackles);
+                break;
+            case 5:
+                iv.setImageBitmap(woodpecker);
+                break;
+            case 6:
+                iv.setImageBitmap(mallard);
+                break;
+            case 7:
+                iv.setImageBitmap(doves);
+                break;
+            case 8:
+                iv.setImageBitmap(pigeons);
+                break;
+            case 9:
+                iv.setImageBitmap(squrrel);
+                break;
+            case 10:
+                iv.setImageBitmap(cottontail);
+                break;
+            default:
+                iv.setImageBitmap(testDefault);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }

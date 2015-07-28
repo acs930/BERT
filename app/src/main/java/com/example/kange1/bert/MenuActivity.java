@@ -94,7 +94,7 @@ public class MenuActivity extends Activity {
         startActivity(intent);
     }
     public void sendMessageFour(View view) {
-        Intent intent = new Intent(MenuActivity.this, GalleryActivity.class);
+        Intent intent = new Intent(MenuActivity.this, ProfileActivity.class);
         startActivity(intent);
     }
     public void sendMessageFive(View view) {

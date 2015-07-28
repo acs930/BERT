@@ -6,62 +6,44 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.example.kange1.bert.MenuActivity">
 
-    <TextView android:text="@string/your_point" android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView2"
-        android:layout_alignParentBottom="true"
-        android:layout_alignLeft="@+id/imageButton5"
-        android:layout_alignStart="@+id/imageButton5"
-        android:layout_marginLeft="36dp"
-        android:layout_marginStart="36dp" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton2"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="sendMessageOne"
-        android:src="@drawable/maps_button_one" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true">
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton3"
-        android:layout_alignTop="@+id/imageButton2"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:onClick="sendMessageTwo"
-        android:src="@drawable/profile_button_one" />
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:id="@+id/imageButton2"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/maps_s"
+            android:onClick="sendMessageOne" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton4"
-        android:layout_below="@+id/imageButton2"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="sendMessageThree"
-        android:src="@drawable/bestiary_button_one"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:id="@+id/imageButton3"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/bestiary_s"
+            android:onClick="sendMessageThree"/>
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton5"
-        android:layout_alignTop="@+id/imageButton4"
-        android:layout_alignRight="@+id/imageButton3"
-        android:layout_alignEnd="@+id/imageButton3"
-        android:onClick="sendMessageFour"
-        android:src="@drawable/gallery_button_one"/>
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:id="@+id/imageButton4"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/profile_s"
+            android:onClick="sendMessageFour"/>
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton"
-        android:src="@drawable/camera"
-        android:layout_above="@+id/textView2"
-        android:onClick="sendMessageFive"
-        android:layout_centerHorizontal="true" />
-
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:id="@+id/imageButton"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/camera_s"
+            android:onClick="sendMessageFive"/>
+    </LinearLayout>
 </RelativeLayout>

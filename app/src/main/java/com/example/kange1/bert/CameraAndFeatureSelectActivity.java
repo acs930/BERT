@@ -25,7 +25,6 @@ public class CameraAndFeatureSelectActivity extends Activity implements View.OnT
         setContentView(R.layout.activity_camera_and_feature_select);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

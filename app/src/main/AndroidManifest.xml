@@ -53,11 +53,6 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
         <activity
-            android:name=".GalleryActivity"
-            android:label="@string/title_activity_gallery"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
-        </activity>
-        <activity
             android:name=".CameraActivity"
             android:label="@string/title_activity_camera"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >

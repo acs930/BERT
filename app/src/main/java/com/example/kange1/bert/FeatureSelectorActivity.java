@@ -40,29 +40,11 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
     public ArrayList<Integer> xPoints = new ArrayList<Integer>();
     public ArrayList<Integer> yPoints = new ArrayList<Integer>();
 
-
     Bitmap imageDrawOverlay;
     Canvas imageOverlay;
     Paint color = new Paint();
     public int layoutWidth, layoutHeight;
     public int touchCount = 0;
-
-    /*public class pointInfo{
-        public int xCoord;
-        public int yCoord;
-
-        public pointInfo()
-        {
-            xCoord = 0;
-            yCoord = 0;
-        }
-        public pointInfo(int x, int y)
-        {
-            xCoord = x;
-            yCoord = y;
-        }
-
-    }*/
 
     private BaseLoaderCallback mOpenCVCallBack = new BaseLoaderCallback(this) {
         @Override
@@ -90,7 +72,6 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
 
         iv = (ImageView)findViewById(R.id.selectView);
         Button nextButton = (Button)findViewById(R.id.nextClick);
-
 
        // Toast.makeText(this.getApplicationContext(),"Hello", Toast.LENGTH_LONG).show();
         if(getIntent().hasExtra("byteArray")) {
@@ -131,9 +112,6 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
             }
         });
 
-
-
-
         if (!OpenCVLoader.initDebug()) {
             //Log.d(TAG, "Internal OpenCV library not found. Using OpenCV Manager for initialization");
             OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mOpenCVCallBack);
@@ -141,11 +119,8 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
             //Log.d(TAG, "OpenCV library found inside package. Using it!");
             mOpenCVCallBack.onManagerConnected(LoaderCallbackInterface.SUCCESS);
         }
-
         Toast.makeText(this.getApplicationContext(), "Tap Eyes", Toast.LENGTH_SHORT).show();
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -165,7 +140,6 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 

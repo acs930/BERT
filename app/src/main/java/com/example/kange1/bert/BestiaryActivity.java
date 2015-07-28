@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -31,19 +33,21 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class BestiaryActivity extends Activity {
 
-    String outName, outPicture;
     Bitmap americanRobin, blueJay, canadaGoose, commonGrackle, downyWoodpecker, mallard, mourningDove, pigeon, easternNewEnglandCottontail, graySquirrel;
-    String[] aniList = {"American Robin", "Blue Jay", "Canada Goose", "Common Grackles", "DownyWoodpecker", "Mallard", "Pigeon",
-            "Eastern New England Cottontail", "Gray Squirrel"};
-    Bitmap[] bitmapList = {americanRobin, blueJay, canadaGoose, commonGrackle, downyWoodpecker, mallard, mourningDove, pigeon,
-            easternNewEnglandCottontail, graySquirrel};
 
     String urlServer = "http://52.3.50.112/dbConnect.php";
     HttpURLConnection con = null;
@@ -51,8 +55,10 @@ public class BestiaryActivity extends Activity {
     String responseFromServer;
     int aniNumber;
 
-    private static final String  TAG = BestiaryActivity.class.getSimpleName();
-    //private final String TAG = "myApp";
+    String jsonResult = "";
+    String ani_name = "asd", sci_name = "fgh";
+
+    private static final String TAG = BestiaryActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,17 +77,6 @@ public class BestiaryActivity extends Activity {
         graySquirrel = BitmapFactory.decodeResource(getResources(), R.drawable.gray_squirrel);
 
         List<ListItem> list = new ArrayList<ListItem>();
-
-        //int sum = 10;
-        //ListItem[] item = new ListItem[sum];
-        /*
-        for (int i=0; i<sum; i++) {
-            ListItem[] item = new ListItem[sum];
-            item[i].image = bitmapList[i];
-            item[i].name = aniList[i];
-            list.add(item[i]);
-        }
-        */
 
         ListItem item1 = new ListItem();
         item1.image = americanRobin;
@@ -136,84 +131,59 @@ public class BestiaryActivity extends Activity {
         ListItemAdapter adapter;
         adapter = new ListItemAdapter(this, 0, list);
 
-        ListView listView = (ListView)findViewById(R.id.ListView01);
+        ListView listView = (ListView) findViewById(R.id.ListView01);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
-                for (int i=0; i<10; i++) {
+                for (int i = 0; i < 10; i++) {
                     if (position == i) {
-
                         Thread t = new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                uploadToServer();
+                                Looper.prepare();
+                                aniNumber = position+1;
+                                uploadToServer(aniNumber);
+                                Log.d(TAG, "my thread works");
                             }
                         });
                         t.start();
-
-                        Toast.makeText(BestiaryActivity.this,"Clicked", Toast.LENGTH_SHORT).show();
-
-                        //Replace with URL
-                        /*
-                        String s = "URL";
-                        s += URLEncoder.encode(addr, "UTF-8");
-                        URL url = new URL(s);
-
-                        Scanner scan = new Scanner(url.openStream());
-                        String displayOutput = new String();
-                        while (scan.hasNext())
-                            displayOutput += scan.nextLine();
-                        scan.close();
-                        */
-
-                        String displayOutput = "{\"Animal\" :[{\"Name\":\"American Robin\", \"Type\":\"Bird\" }";
-
-                        try {
-                            JSONObject reader = new JSONObject(displayOutput);
-                            JSONArray displayArray = reader.optJSONArray("Animal");
-
-                            JSONObject displayItem = displayArray.getJSONObject(position);
-
-                            String animalName = displayItem.optString("Name").toString();
-                            String animalType = displayItem.optString("Type").toString();
-
-                            Intent intent = new Intent(BestiaryActivity.this, BestiaryDetailActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putString("aniString", animalName);
-                            startActivity(intent);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        outName = aniList[i];
-                        Intent intent = new Intent(BestiaryActivity.this, BestiaryDetailActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("aniString", outName);
-                        startActivity(intent);
-
-                        /*
-                        outName = aniList[i];
-                        Intent intent = new Intent(BestiaryActivity.this, BestiaryDetailActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putString("aniString", outName);
-                        //bundle.putString("aniString", animalName);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                        */
+                        Log.d(TAG, "thread get started");
                     }
                 }
             }
         });
     }
 
+    public void testReceiveData(String jsonResult, int aniNumber) {
+        try {
+            Log.d(TAG, "here"+jsonResult);
+
+            JSONObject jsonObj = new JSONObject(jsonResult);
+            ani_name = jsonObj.getString("name");
+            sci_name = jsonObj.getString("sci_name");
+            Log.d(TAG, "It gets JSONObject");
+            Log.d(TAG, ani_name);
+            Intent intent = new Intent(BestiaryActivity.this, BestiaryDetailActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("aniString", ani_name);
+            bundle.putString("sciString", sci_name);
+            bundle.putString("aniInt", String.valueOf(aniNumber));
+
+            intent.putExtras(bundle);
+            startActivity(intent);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     @SuppressWarnings("deprecation")
-    public boolean uploadToServer() {
+    public boolean uploadToServer(int aniNumber) {
         try {
             String responseString = null;
-            HttpClient httpclient = new DefaultHttpClient();
+            DefaultHttpClient httpclient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(urlServer);
 
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
@@ -222,24 +192,37 @@ public class BestiaryActivity extends Activity {
 
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             HttpResponse response = httpclient.execute(httpPost);
+            Log.d(TAG, "amHere");
 
-            String responseBody = EntityUtils.toString(response.getEntity());
-            Log.d(TAG, "animal Name: " + Integer.toString(aniNumber));
+            HttpEntity result = response.getEntity();
+            if (result != null) {
+                InputStream input = result.getContent();
+                jsonResult = convertStreamToString(input);
+                Log.d(TAG, jsonResult);
+                Log.d(TAG, "jesonResult works");
 
-            responseFromServer = responseBody;
-            Log.d(TAG, ""+response);
+                testReceiveData(jsonResult, aniNumber); //It said position needs to be declared final above
+                Log.d(TAG, "maybe this one works too");
+            } else {
+                Log.d(TAG, "broke in repsonse");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return true;
-        /*
-        try {
-            JSONObject jResult = new JSONObject(displayOutput);
-            JSONArray jArray = jResult.getJSONArray("example");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        */
     }
 
+    private String convertStreamToString(InputStream is) {
+        String line = "";
+        StringBuilder total = new StringBuilder();
+        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+        try {
+            while ((line = rd.readLine()) != null) {
+                total.append(line);
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Stream Exception", Toast.LENGTH_SHORT).show();
+        }
+        return total.toString();
+    }
 }
