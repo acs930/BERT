@@ -25,6 +25,8 @@
     <string name="habitat"><u>Habitat</u></string>
     <string name="description"><u>Description</u></string>
 
+    <string name="is_this">Is It This Animal?</string>
+
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_select">SelectActivity</string>
     <string name="title_activity_upload_to_server">UploadToServerActivity</string>

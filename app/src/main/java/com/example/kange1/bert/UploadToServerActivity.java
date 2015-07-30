@@ -2,6 +2,7 @@ package com.example.kange1.bert;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Entity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,6 +23,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -35,9 +37,12 @@ import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -57,6 +62,8 @@ public class UploadToServerActivity extends Activity {
     Bitmap imageDrawOverlay;
 
     int answerId, accuracyNum;
+    String jsonResult = "";
+    String srcString = "";
 
     ProgressDialog progressBar;
     private int progressBarStatus = 0;
@@ -64,11 +71,15 @@ public class UploadToServerActivity extends Activity {
     private long fileSize = 0;
 
     String urlServer = "http://52.3.50.112/imageHandler.php";
+    String urlServerTwo = "http://52.3.50.112/dbConnect.php";
     //HttpURLConnection connection = null;
 
     HttpURLConnection con = null;
     String responseFromServer;
     private static final String  TAG = UploadToServerActivity.class.getSimpleName();
+
+    String ani_name = "", sci_name = "", typ_name = "", siz_name="", wei_name="", lif_name="", die_name="", hab_name="", des_name="";
+    int testNumbertest = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,8 +174,10 @@ public class UploadToServerActivity extends Activity {
         try {
             String responseString = null;
             HttpClient httpclient = new DefaultHttpClient();
+            HttpClient httpclientTwo = httpclient;
 
             HttpPost httpPost = new HttpPost(urlServer);
+            HttpPost httpPostTwo = new HttpPost(urlServerTwo);
 
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
             imageData = Base64.encodeToString(img, Base64.DEFAULT);
@@ -182,54 +195,41 @@ public class UploadToServerActivity extends Activity {
             HttpResponse response = httpclient.execute(httpPost);
 
             String responseBody = EntityUtils.toString(response.getEntity());
+            Log.d(TAG, responseBody);
             responseFromServer = responseBody;
 
-            progressBar = new ProgressDialog(v1.getContext());
-            progressBar.setCancelable(false);
-            progressBar.setMessage("Loading ...");
-            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            progressBar.setProgress(0);
-            progressBar.setMax(100);
-            progressBar.show();
+            HttpResponse responseTwo = httpclientTwo.execute(httpPostTwo);
+            HttpEntity result = responseTwo.getEntity();
+            if (result != null) {
+                InputStream input = result.getContent();
+                jsonResult = convertStreamToString(input);
+                Log.d(TAG, jsonResult);
+                Log.d(TAG, "jesonResult works");
 
-            //reset progress bar status, filesize
-            progressBarStatus = 0;
-            fileSize = 0;
-
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    while (progressBarStatus < 100) {
-                        progressBarStatus = doSomeTasks();
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        progressBarHandler.post(new Runnable() {
-                            @Override
-                            public void run() {
-                                progressBar.setProgress(progressBarStatus);
-                            }
-                        });
-                    }
-
-                    // file is downloaded
-                    if (progressBarStatus >= 100) {
-                        try {
-                            Thread.sleep(2000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        progressBar.dismiss();
-                    }
-                }
-            }).start();
+                testReceiveData(jsonResult); //It said position needs to be declared final above
+                Log.d(TAG, "maybe this one works too");
+            } else {
+                Log.d(TAG, "broke in repsonse");
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
         return true;
+    }
+
+    private String convertStreamToString(InputStream is) {
+        String line = "";
+        StringBuilder total = new StringBuilder();
+        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+        try {
+            while ((line = rd.readLine()) != null) {
+                total.append(line);
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Stream Exception", Toast.LENGTH_SHORT).show();
+        }
+        return total.toString();
     }
 
     public void triggerImageUpload() {
@@ -254,9 +254,13 @@ public class UploadToServerActivity extends Activity {
         return 100;
     }
 
-    public void testReceiveData(String jsonResult, int aniNumber) {
+    /*
+    public void testReceiveData(String jsonResult) {
         try {
-            Log.d(TAG, "here"+jsonResult);
+            // you can consume Content only at once
+            // http://stackoverflow.com/questions/4727114/illegalstateexception-content-has-been-consumed
+            srcString = jsonResult;
+            Log.d(TAG, "here"+srcString);
 
             JSONObject jsonObj = new JSONObject(jsonResult);
             answerId = jsonObj.getInt("animal_id");
@@ -265,7 +269,47 @@ public class UploadToServerActivity extends Activity {
             Log.d(TAG, "It gets JSONObject");
             Intent intent = new Intent(UploadToServerActivity.this, ResultActivity.class);
             Bundle bundle = new Bundle();
-            bundle.putString("aniInt", String.valueOf(aniNumber));
+            bundle.putString("ansId", String.valueOf(answerId));
+            bundle.putString("accNum", String.valueOf(accuracyNum));
+
+            intent.putExtras(bundle);
+            startActivity(intent);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    */
+
+    public void testReceiveData(String jsonResult) {
+        try {
+            Log.d(TAG, "here"+jsonResult);
+
+            JSONObject jsonObj = new JSONObject(jsonResult);
+            ani_name = jsonObj.getString("name");
+            sci_name = jsonObj.getString("sci_name");
+            typ_name = jsonObj.getString("type");
+            siz_name = jsonObj.getString("size");
+            wei_name = jsonObj.getString("weight");
+            lif_name = jsonObj.getString("lifespan");
+            die_name = jsonObj.getString("diet");
+            hab_name = jsonObj.getString("habitat");
+            des_name = jsonObj.getString("description");
+
+            Log.d(TAG, "It gets JSONObject");
+            Log.d(TAG, ani_name);
+            Intent intent = new Intent(UploadToServerActivity.this, ResultActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("aniString", ani_name);
+            bundle.putString("sciString", sci_name);
+            bundle.putString("typString", typ_name);
+            bundle.putString("sizString", siz_name);
+            bundle.putString("weiString", wei_name);
+            bundle.putString("lifString", lif_name);
+            bundle.putString("dieString", die_name);
+            bundle.putString("habString", hab_name);
+            bundle.putString("desString", des_name);
+            bundle.putString("ansId", String.valueOf(testNumbertest));
 
             intent.putExtras(bundle);
             startActivity(intent);
