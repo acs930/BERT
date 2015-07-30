@@ -79,7 +79,7 @@ public class UploadToServerActivity extends Activity {
     private static final String  TAG = UploadToServerActivity.class.getSimpleName();
 
     String ani_name = "", sci_name = "", typ_name = "", siz_name="", wei_name="", lif_name="", die_name="", hab_name="", des_name="";
-    int testNumbertest = 1;
+    int testNumbertest = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

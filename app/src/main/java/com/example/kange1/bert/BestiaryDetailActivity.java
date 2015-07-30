@@ -76,7 +76,6 @@ public class BestiaryDetailActivity extends Activity {
         tv9.setText(getIntent().getStringExtra("desString"));
 
         picValue = Integer.valueOf(getIntent().getStringExtra("aniInt"));
-
         switch (picValue) {
             case 1:
                 iv.setImageBitmap(robin);

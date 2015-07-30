@@ -10,32 +10,32 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 
-public class ResultActivity extends Activity {
+public class FinalActivity extends Activity {
 
-    ImageView iv;
-    Button b1, b2;
+    ImageView iv, v1;
+    Button b1;
+    TextView t0, t1, t2, t3, t4;
     Bitmap robin, jay, goose, grackles, woodpecker, mallard, doves, pigeons, squrrel, cottontail, crow, goldfinch, toad, chickadee, cardinal, cow, deer, chipmunk, turtle, fox, gull, mouse, pig, raccoon, rat, blackbird, sheep, cat, testDefault;
-    int picValue;
-    String passName;
-    String passTitle = "Congratulation!!";
-    String passSub = "You take a picture of";
+    Bitmap Agrade, Bgrade, Cgrade;
+    int picValue, gradeValue;
 
-    int gradeA = 1, gradeB = 2, gradeC = 3;
-
-    private static final String  TAG = ResultActivity.class.getSimpleName();
+    private static final String  TAG = FinalActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_result);
+        setContentView(R.layout.activity_final);
 
-        iv = (ImageView)findViewById(R.id.imageView5);
-        b1 = (Button)findViewById(R.id.button3);
-        b2 = (Button)findViewById(R.id.button4);
+        iv = (ImageView)findViewById(R.id.imageView6);
+        v1 = (ImageView)findViewById(R.id.imageView7);
+        t0 = (TextView)findViewById(R.id.textView20);
+        t1 = (TextView)findViewById(R.id.textView21);
+        t2 = (TextView)findViewById(R.id.textView22);
+        b1 = (Button)findViewById(R.id.button5);
 
         testDefault = BitmapFactory.decodeResource(getResources(), R.drawable.question_mark);
         robin = BitmapFactory.decodeResource(getResources(), R.drawable.american_robin_d);
@@ -69,138 +69,124 @@ public class ResultActivity extends Activity {
         sheep = BitmapFactory.decodeResource(getResources(), R.drawable.sheep_d);
         cat = BitmapFactory.decodeResource(getResources(), R.drawable.siamese_cat_d);
 
-        picValue = Integer.valueOf(getIntent().getStringExtra("ansId"));
+        Agrade = BitmapFactory.decodeResource(getResources(), R.drawable.a_h);
+        Bgrade = BitmapFactory.decodeResource(getResources(), R.drawable.b_h);
+        Cgrade = BitmapFactory.decodeResource(getResources(), R.drawable.c_h);
 
+        picValue = Integer.valueOf(getIntent().getStringExtra("disNum"));
         switch (picValue) {
             case 1:
                 iv.setImageBitmap(robin);
-                passName = "American Robin";
                 break;
             case 2:
                 iv.setImageBitmap(jay);
-                passName = "Blue Jay";
                 break;
             case 3:
                 iv.setImageBitmap(goose);
-                passName = "Canada Goose";
                 break;
             case 4:
                 iv.setImageBitmap(grackles);
-                passName = "Common Grackles";
                 break;
             case 5:
                 iv.setImageBitmap(woodpecker);
-                passName = "Downy Woodpecker";
                 break;
             case 6:
                 iv.setImageBitmap(mallard);
-                passName = "Mallard";
                 break;
             case 7:
                 iv.setImageBitmap(doves);
-                passName = "Mourning Doves";
                 break;
             case 8:
                 iv.setImageBitmap(pigeons);
-                passName = "Rock Dove";
                 break;
             case 9:
                 iv.setImageBitmap(squrrel);
-                passName = "Gray Squrrel";
                 break;
             case 10:
                 iv.setImageBitmap(cottontail);
-                passName = "Eastern New England Cottontail";
                 break;
             case 11:
                 iv.setImageBitmap(crow);
-                passName = "American Crow";
                 break;
             case 12:
                 iv.setImageBitmap(goldfinch);
-                passName = "American Goldfinch";
                 break;
             case 13:
                 iv.setImageBitmap(toad);
-                passName = "American Toad";
                 break;
             case 14:
                 iv.setImageBitmap(chickadee);
-                passName = "Black-Capped Chickadee";
                 break;
             case 15:
                 iv.setImageBitmap(cardinal);
-                passName = "Cardinal";
                 break;
             case 16:
                 iv.setImageBitmap(cow);
-                passName = "Cow";
                 break;
             case 17:
                 iv.setImageBitmap(deer);
-                passName = "White-Tailed Deer";
                 break;
             case 18:
                 iv.setImageBitmap(chipmunk);
-                passName = "Eastern Chipmunk";
                 break;
             case 19:
                 iv.setImageBitmap(turtle);
-                passName = "Eastern Painted Turtle";
                 break;
             case 20:
                 iv.setImageBitmap(fox);
-                passName = "Red Fox";
                 break;
             case 21:
                 iv.setImageBitmap(gull);
-                passName = "Ring-Billed Gull";
                 break;
             case 22:
                 iv.setImageBitmap(mouse);
-                passName = "MOuse";
                 break;
             case 23:
                 iv.setImageBitmap(pig);
-                passName = "Pig";
                 break;
             case 24:
                 iv.setImageBitmap(raccoon);
-                passName = "Raccoon";
                 break;
             case 25:
                 iv.setImageBitmap(rat);
-                passName = "Rat";
                 break;
             case 26:
                 iv.setImageBitmap(blackbird);
-                passName = "Red-Winged Blackbird";
                 break;
             case 27:
                 iv.setImageBitmap(sheep);
-                passName = "Sheep";
                 break;
             case 28:
                 iv.setImageBitmap(cat);
-                passName = "Siamese Cat";
                 break;
             default:
                 iv.setImageBitmap(testDefault);
         }
 
+        gradeValue = Integer.valueOf(getIntent().getStringExtra("disNum"));
+        switch (gradeValue) {
+            case 1:
+                v1.setImageBitmap(Agrade);
+                break;
+            case 2:
+                v1.setImageBitmap(Bgrade);
+                break;
+            case 3:
+                v1.setImageBitmap(Cgrade);
+                break;
+            default:
+                iv.setImageBitmap(testDefault);
+        }
+
+        t0.setText(getIntent().getStringExtra("disTit"));
+        t1.setText(getIntent().getStringExtra("disSub"));
+        t2.setText(getIntent().getStringExtra("disAni"));
+
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.d(TAG, "almost there");
-                Intent i = new Intent(ResultActivity.this, FinalActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("disAni", passName);
-                bundle.putString("disNum", String.valueOf(picValue));
-                bundle.putString("disTit", passTitle);
-                bundle.putString("disSub", passSub);
-                bundle.putString("gradVal", String.valueOf(gradeA));
-
-                i.putExtras(bundle);
+                Intent i = new Intent(FinalActivity.this, MenuActivity.class);
                 startActivity(i);
             }
         });
