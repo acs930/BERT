@@ -69,7 +69,6 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
                 {
                     Log.d(TAG, "OpenCV loaded successfully");
                     iv.setOnTouchListener(FeatureSelectorActivity.this);
-
                 } break;
                 default:
                 {
@@ -92,17 +91,18 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
         color.setColor(Color.RED);
         Button nextButton = (Button) findViewById(R.id.nextClick);
 
+        /*
         // Toast.makeText(this.getApplicationContext(),"Hello", Toast.LENGTH_LONG).show();
-        if (getIntent().hasExtra("byteArray")) {
+        if (getIntent().hasExtra("imagePath")) {
             //ImageView previewThumbnail = new ImageView(this);
-            Bitmap bp = BitmapFactory.decodeByteArray(getIntent().getByteArrayExtra("byteArray"),
-                    0, getIntent().getByteArrayExtra("byteArray").length);
+            Bitmap bp = BitmapFactory.decodeByteArray(getIntent().getByteArrayExtra("imagePath"),
+                    0, getIntent().getByteArrayExtra("imagePath").length);
             //previewThumbnail.setImageBitmap(bp);
+            */
 
 
             //Gets image and displays it
             if (getIntent().hasExtra("imagePath")) {
-
                 File file = new File(getIntent().getStringExtra("imagePath"));
 
                 try {
@@ -159,8 +159,8 @@ public class FeatureSelectorActivity extends Activity implements View.OnTouchLis
                 mOpenCVCallBack.onManagerConnected(LoaderCallbackInterface.SUCCESS);
             }
             Toast.makeText(this.getApplicationContext(), "Tap Eyes", Toast.LENGTH_SHORT).show();
-        }
     }
+
 
     public void SetUpCanvas()
     {

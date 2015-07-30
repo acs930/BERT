@@ -14,7 +14,7 @@ public class BestiaryDetailActivity extends Activity {
 
     ImageView iv;
     TextView tv1, tv2, tv3, tv4, tv5, tv6, tv7, tv8, tv9;
-    Bitmap robin, jay, goose, grackles, woodpecker, mallard, doves, pigeons, squrrel, cottontail, testDefault;
+    Bitmap robin, jay, goose, grackles, woodpecker, mallard, doves, pigeons, squrrel, cottontail, crow, goldfinch, toad, chickadee, cardinal, cow, deer, chipmunk, turtle, fox, gull, mouse, pig, raccoon, rat, blackbird, sheep, cat, testDefault;
     int picValue;
 
     @Override
@@ -44,6 +44,26 @@ public class BestiaryDetailActivity extends Activity {
         pigeons = BitmapFactory.decodeResource(getResources(), R.drawable.pigeon_d);
         squrrel = BitmapFactory.decodeResource(getResources(), R.drawable.gray_squrrel_d);
         cottontail = BitmapFactory.decodeResource(getResources(), R.drawable.eastern_new_england_cottontail_d);
+
+        crow = BitmapFactory.decodeResource(getResources(), R.drawable.american_crow_d);
+        goldfinch = BitmapFactory.decodeResource(getResources(), R.drawable.american_goldfinch_d);
+        toad = BitmapFactory.decodeResource(getResources(), R.drawable.american_toad_d);
+        chickadee = BitmapFactory.decodeResource(getResources(), R.drawable.black_capped_chickadee_d);
+        cardinal = BitmapFactory.decodeResource(getResources(), R.drawable.cardinal_d);
+        cow = BitmapFactory.decodeResource(getResources(), R.drawable.cow_d);
+        deer = BitmapFactory.decodeResource(getResources(), R.drawable.white_tailed_deer_d);
+        chipmunk = BitmapFactory.decodeResource(getResources(), R.drawable.eastern_chipmunk_d);
+        turtle = BitmapFactory.decodeResource(getResources(), R.drawable.eastern_painted_turtle_d);
+        fox = BitmapFactory.decodeResource(getResources(), R.drawable.red_fox_d);
+
+        gull = BitmapFactory.decodeResource(getResources(), R.drawable.ring_billed_gull_d);
+        mouse = BitmapFactory.decodeResource(getResources(), R.drawable.mouse_d);
+        pig = BitmapFactory.decodeResource(getResources(), R.drawable.pig_d);
+        raccoon = BitmapFactory.decodeResource(getResources(), R.drawable.raccoon_d);
+        rat = BitmapFactory.decodeResource(getResources(), R.drawable.rat_d);
+        blackbird = BitmapFactory.decodeResource(getResources(), R.drawable.red_winged_blackbird_d);
+        sheep = BitmapFactory.decodeResource(getResources(), R.drawable.sheep_d);
+        cat = BitmapFactory.decodeResource(getResources(), R.drawable.siamese_cat_d);
 
         tv1.setText(getIntent().getStringExtra("aniString"));
         tv2.setText(getIntent().getStringExtra("sciString"));
@@ -87,6 +107,60 @@ public class BestiaryDetailActivity extends Activity {
                 break;
             case 10:
                 iv.setImageBitmap(cottontail);
+                break;
+            case 11:
+                iv.setImageBitmap(crow);
+                break;
+            case 12:
+                iv.setImageBitmap(goldfinch);
+                break;
+            case 13:
+                iv.setImageBitmap(toad);
+                break;
+            case 14:
+                iv.setImageBitmap(chickadee);
+                break;
+            case 15:
+                iv.setImageBitmap(cardinal);
+                break;
+            case 16:
+                iv.setImageBitmap(cow);
+                break;
+            case 17:
+                iv.setImageBitmap(deer);
+                break;
+            case 18:
+                iv.setImageBitmap(chipmunk);
+                break;
+            case 19:
+                iv.setImageBitmap(turtle);
+                break;
+            case 20:
+                iv.setImageBitmap(fox);
+                break;
+            case 21:
+                iv.setImageBitmap(gull);
+                break;
+            case 22:
+                iv.setImageBitmap(mouse);
+                break;
+            case 23:
+                iv.setImageBitmap(pig);
+                break;
+            case 24:
+                iv.setImageBitmap(raccoon);
+                break;
+            case 25:
+                iv.setImageBitmap(rat);
+                break;
+            case 26:
+                iv.setImageBitmap(blackbird);
+                break;
+            case 27:
+                iv.setImageBitmap(sheep);
+                break;
+            case 28:
+                iv.setImageBitmap(cat);
                 break;
             default:
                 iv.setImageBitmap(testDefault);

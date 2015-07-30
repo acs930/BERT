@@ -47,7 +47,7 @@ import java.util.Scanner;
 
 public class BestiaryActivity extends Activity {
 
-    Bitmap americanRobin, blueJay, canadaGoose, commonGrackle, downyWoodpecker, mallard, mourningDove, pigeon, easternNewEnglandCottontail, graySquirrel;
+    Bitmap americanRobin, blueJay, canadaGoose, commonGrackle, downyWoodpecker, mallard, mourningDove, pigeon, easternNewEnglandCottontail, graySquirrel, americanCrow, americanGoldfinch, americanToad, blackCappedChickadee, cardinal, cow, whiteTailedDeer, easternChipmunk, easternPaintedTurtle, redFox, ringBilledGull, mouse, pig, raccoon, rat, redWingedBlackbird, sheep, siameseCat;
 
     String urlServer = "http://52.3.50.112/dbConnect.php";
     HttpURLConnection con = null;
@@ -75,6 +75,26 @@ public class BestiaryActivity extends Activity {
         pigeon = BitmapFactory.decodeResource(getResources(), R.drawable.pigeon);
         easternNewEnglandCottontail = BitmapFactory.decodeResource(getResources(), R.drawable.eastern_new_england_cottontail);
         graySquirrel = BitmapFactory.decodeResource(getResources(), R.drawable.gray_squirrel);
+
+        americanCrow = BitmapFactory.decodeResource(getResources(), R.drawable.american_crow);
+        americanGoldfinch = BitmapFactory.decodeResource(getResources(), R.drawable.american_goldfinch);
+        americanToad = BitmapFactory.decodeResource(getResources(), R.drawable.american_toad);
+        blackCappedChickadee = BitmapFactory.decodeResource(getResources(), R.drawable.black_capped_chickadee);
+        cardinal = BitmapFactory.decodeResource(getResources(), R.drawable.cardinal);
+        cow = BitmapFactory.decodeResource(getResources(), R.drawable.cow);
+        whiteTailedDeer = BitmapFactory.decodeResource(getResources(), R.drawable.white_tailed_deer);
+        easternChipmunk = BitmapFactory.decodeResource(getResources(), R.drawable.eastern_chipmunk);
+        easternPaintedTurtle = BitmapFactory.decodeResource(getResources(), R.drawable.eastern_painted_turtle);
+        redFox = BitmapFactory.decodeResource(getResources(), R.drawable.red_fox);
+
+        ringBilledGull = BitmapFactory.decodeResource(getResources(), R.drawable.ring_billed_gull);
+        mouse = BitmapFactory.decodeResource(getResources(), R.drawable.mouse);
+        pig = BitmapFactory.decodeResource(getResources(), R.drawable.pig);
+        raccoon = BitmapFactory.decodeResource(getResources(), R.drawable.raccoon);
+        rat = BitmapFactory.decodeResource(getResources(), R.drawable.rat);
+        redWingedBlackbird = BitmapFactory.decodeResource(getResources(), R.drawable.red_winged_blackbird);
+        sheep = BitmapFactory.decodeResource(getResources(), R.drawable.sheep);
+        siameseCat = BitmapFactory.decodeResource(getResources(), R.drawable.siamse_cat);
 
         List<ListItem> list = new ArrayList<ListItem>();
 
@@ -115,7 +135,7 @@ public class BestiaryActivity extends Activity {
 
         ListItem item8 = new ListItem();
         item8.image = pigeon;
-        item8.name = "Pigeons";
+        item8.name = "Rock Dove";
         list.add(item8);
 
         ListItem item9 = new ListItem();
@@ -128,6 +148,96 @@ public class BestiaryActivity extends Activity {
         item10.name = "Eastern New England Cottontail";
         list.add(item10);
 
+        ListItem item11 = new ListItem();
+        item11.image = americanCrow;
+        item11.name = "American Crow";
+        list.add(item11);
+
+        ListItem item12 = new ListItem();
+        item12.image = americanGoldfinch;
+        item12.name = "American Goldfinch";
+        list.add(item12);
+
+        ListItem item13 = new ListItem();
+        item13.image = americanToad;
+        item13.name = "American Toad";
+        list.add(item13);
+
+        ListItem item14 = new ListItem();
+        item14.image = blackCappedChickadee;
+        item14.name = "Black-Capped Chickadee";
+        list.add(item14);
+
+        ListItem item15 = new ListItem();
+        item15.image = cardinal;
+        item15.name = "Cardinal";
+        list.add(item15);
+
+        ListItem item16 = new ListItem();
+        item16.image = cow;
+        item16.name = "Cow";
+        list.add(item16);
+
+        ListItem item17 = new ListItem();
+        item17.image = whiteTailedDeer;
+        item17.name = "White-Tailed Deer";
+        list.add(item17);
+
+        ListItem item18 = new ListItem();
+        item18.image = easternChipmunk;
+        item18.name = "Eastern Chipmunk";
+        list.add(item18);
+
+        ListItem item19 = new ListItem();
+        item19.image = easternPaintedTurtle;
+        item19.name = "Eastern Painted Turtle";
+        list.add(item19);
+
+        ListItem item20 = new ListItem();
+        item20.image = redFox;
+        item20.name = "Red Fox";
+        list.add(item20);
+
+        ListItem item21 = new ListItem();
+        item21.image = ringBilledGull;
+        item21.name = "Ring-Billed Gull";
+        list.add(item21);
+
+        ListItem item22 = new ListItem();
+        item22.image = mouse;
+        item22.name = "Mouse";
+        list.add(item22);
+
+        ListItem item23 = new ListItem();
+        item23.image = pig;
+        item23.name = "Pig";
+        list.add(item23);
+
+        ListItem item24 = new ListItem();
+        item24.image = raccoon;
+        item24.name = "Raccoon";
+        list.add(item24);
+
+        ListItem item25 = new ListItem();
+        item25.image = rat;
+        item25.name = "Rat";
+        list.add(item25);
+
+        ListItem item26 = new ListItem();
+        item26.image = redWingedBlackbird;
+        item26.name = "Red-Winged Blackbird";
+        list.add(item26);
+
+        ListItem item27 = new ListItem();
+        item27.image = sheep;
+        item27.name = "Sheep";
+        list.add(item27);
+
+        ListItem item28 = new ListItem();
+        item28.image = siameseCat;
+        item28.name = "Siamese Cat";
+        list.add(item28);
+
         ListItemAdapter adapter;
         adapter = new ListItemAdapter(this, 0, list);
 
@@ -137,7 +247,7 @@ public class BestiaryActivity extends Activity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
-                for (int i = 0; i < 10; i++) {
+                for (int i = 0; i < 28; i++) {
                     if (position == i) {
                         Thread t = new Thread(new Runnable() {
                             @Override

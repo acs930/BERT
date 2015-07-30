@@ -75,9 +75,7 @@ public class CameraActivity extends Activity {
         if(!tempPath.exists())
             tempPath.mkdir();
 
-
         return new File(tempPath, "image.tmp");
-
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

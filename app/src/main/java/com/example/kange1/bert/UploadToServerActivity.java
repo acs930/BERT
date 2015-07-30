@@ -32,6 +32,8 @@ import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -52,6 +54,9 @@ public class UploadToServerActivity extends Activity {
     String imageData;
     Button b1, b2;
     ImageView v1;
+    Bitmap imageDrawOverlay;
+
+    int answerId, accuracyNum;
 
     ProgressDialog progressBar;
     private int progressBarStatus = 0;
@@ -125,13 +130,32 @@ public class UploadToServerActivity extends Activity {
             }
         });
 
-        if(getIntent().hasExtra("byteArray")) {
+        if (getIntent().hasExtra("imagePath")) {
+            File file = new File(getIntent().getStringExtra("imagePath"));
+
+            try {
+                bp = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.d(TAG, "Error: " + e.toString());
+            }
+
+            Log.d(TAG, "Width: " + bp.getWidth() + " Height: " + bp.getHeight());
+
+            v1.setImageBitmap(bp);
+            imageDrawOverlay = bp;
+        }
+
+        /*
+        if(getIntent().hasExtra("imagePath")) {
             //ImageView previewThumbnail = new ImageView(this);
-            bp = BitmapFactory.decodeByteArray(getIntent().getByteArrayExtra("byteArray"),
-                    0, getIntent().getByteArrayExtra("byteArray").length);
+            bp = BitmapFactory.decodeByteArray(getIntent().getByteArrayExtra("imagePath"),
+                    0, getIntent().getByteArrayExtra("imagePath").length);
             //previewThumbnail.setImageBitmap(bp);
             v1.setImageBitmap(bp);
         }
+        */
     }
 
     @SuppressWarnings("deprecation")
@@ -155,7 +179,6 @@ public class UploadToServerActivity extends Activity {
             Log.d(TAG, "im: " + imageData.length());
 
             httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
             HttpResponse response = httpclient.execute(httpPost);
 
             String responseBody = EntityUtils.toString(response.getEntity());
@@ -231,4 +254,24 @@ public class UploadToServerActivity extends Activity {
         return 100;
     }
 
+    public void testReceiveData(String jsonResult, int aniNumber) {
+        try {
+            Log.d(TAG, "here"+jsonResult);
+
+            JSONObject jsonObj = new JSONObject(jsonResult);
+            answerId = jsonObj.getInt("animal_id");
+            accuracyNum = jsonObj.getInt("accuracy");
+
+            Log.d(TAG, "It gets JSONObject");
+            Intent intent = new Intent(UploadToServerActivity.this, ResultActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("aniInt", String.valueOf(aniNumber));
+
+            intent.putExtras(bundle);
+            startActivity(intent);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }

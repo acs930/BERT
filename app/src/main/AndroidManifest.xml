@@ -81,6 +81,10 @@
             android:name=".BestiaryDetailActivity"
             android:label="@string/title_activity_bestiary_detail" >
         </activity>
+        <activity
+            android:name=".ResultActivity"
+            android:label="@string/title_activity_result" >
+        </activity>
     </application>
 
 </manifest>
