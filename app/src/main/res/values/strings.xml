@@ -4,7 +4,7 @@
     <string name="bert">B.E.R.T.</string>
     <string name="your_point">Your Point Is: </string>
     <string name="maps">maps</string>
-    <string name="profile">profile</string>
+    <string name="profile">Profile</string>
     <string name="bestiary">bestiary</string>
     <string name="gallery">gallery</string>
     <string name="camera">camera</string>
@@ -34,6 +34,10 @@
     <string name="title_activity_upload_to_server">UploadToServerActivity</string>
 
     <string name="do_you_upload">Do you want to know what this is?</string>
+
+    <string name="level">Lv.1 Beginner</string>
+    <string name="num_pic">Number of Captures</string>
+    <string name="num_spe">Number of Species</string>
 =======
     <string name="title_activity_camera_and_feature_select">CameraAndFeatureSelect</string>
     <string name="title_activity_bestiary_detail">BestiaryDetailActivity</string>
