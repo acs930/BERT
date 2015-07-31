@@ -17,8 +17,9 @@ import android.widget.ImageView;
 public class ResultActivity extends Activity {
 
     ImageView iv;
-    Button b1, b2;
+    Button b1, b2, b3;
     Bitmap robin, jay, goose, grackles, woodpecker, mallard, doves, pigeons, squrrel, cottontail, crow, goldfinch, toad, chickadee, cardinal, cow, deer, chipmunk, turtle, fox, gull, mouse, pig, raccoon, rat, blackbird, sheep, cat, testDefault;
+    Bitmap question;
     int picValue;
     String passName;
     String passTitle = "Congratulation!!";
@@ -36,6 +37,7 @@ public class ResultActivity extends Activity {
         iv = (ImageView)findViewById(R.id.imageView5);
         b1 = (Button)findViewById(R.id.button3);
         b2 = (Button)findViewById(R.id.button4);
+        b3 = (Button)findViewById(R.id.button7);
 
         testDefault = BitmapFactory.decodeResource(getResources(), R.drawable.question_mark);
         robin = BitmapFactory.decodeResource(getResources(), R.drawable.american_robin_d);
@@ -68,10 +70,14 @@ public class ResultActivity extends Activity {
         blackbird = BitmapFactory.decodeResource(getResources(), R.drawable.red_winged_blackbird_d);
         sheep = BitmapFactory.decodeResource(getResources(), R.drawable.sheep_d);
         cat = BitmapFactory.decodeResource(getResources(), R.drawable.siamese_cat_d);
+        question = BitmapFactory.decodeResource(getResources(), R.drawable.no_id_bird_s);
 
         picValue = Integer.valueOf(getIntent().getStringExtra("ansId"));
 
         switch (picValue) {
+            case 0:
+                iv.setImageBitmap(question);
+                break;
             case 1:
                 iv.setImageBitmap(robin);
                 passName = "American Robin";
@@ -188,21 +194,49 @@ public class ResultActivity extends Activity {
                 iv.setImageBitmap(testDefault);
         }
 
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.d(TAG, "almost there");
-                Intent i = new Intent(ResultActivity.this, FinalActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("disAni", passName);
-                bundle.putString("disNum", String.valueOf(picValue));
-                bundle.putString("disTit", passTitle);
-                bundle.putString("disSub", passSub);
-                bundle.putString("gradVal", String.valueOf(gradeA));
+        if (picValue == 0) {
+            b3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "picValue is 0");
+                    Intent i = new Intent(ResultActivity.this, SecondResultActivity.class);
+                    startActivity(i);
+                }
+            });
+        } else {
+            b1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "almost there");
+                    Intent i = new Intent(ResultActivity.this, FinalActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("disAni", passName);
+                    bundle.putString("disNum", String.valueOf(picValue));
+                    bundle.putString("disTit", passTitle);
+                    bundle.putString("disSub", passSub);
+                    bundle.putString("gradVal", String.valueOf(gradeA));
 
-                i.putExtras(bundle);
-                startActivity(i);
-            }
-        });
+                    i.putExtras(bundle);
+                    startActivity(i);
+                }
+            });
+
+            b1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.d(TAG, "almost there");
+                    Intent i = new Intent(ResultActivity.this, SecondResultActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("disAni", passName);
+                    bundle.putString("disNum", String.valueOf(picValue));
+                    bundle.putString("disTit", passTitle);
+                    bundle.putString("disSub", passSub);
+                    bundle.putString("gradVal", String.valueOf(gradeA));
+
+                    i.putExtras(bundle);
+                    startActivity(i);
+                }
+            });
+        }
     }
 }
