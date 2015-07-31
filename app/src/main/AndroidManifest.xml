@@ -89,6 +89,10 @@
             android:name=".FinalActivity"
             android:label="@string/title_activity_final" >
         </activity>
+        <activity
+            android:name=".SecondResultActivity"
+            android:label="@string/title_activity_second_result" >
+        </activity>
     </application>
 
 </manifest>

@@ -40,6 +40,7 @@ public class CameraActivity extends Activity {
 
     ImageButton b1;
     ImageView iv;
+    Button bb1;
     public Location test;
     private static final String  TAG = CameraActivity.class.getSimpleName();
 
@@ -51,9 +52,10 @@ public class CameraActivity extends Activity {
 
         b1 = (ImageButton)findViewById(R.id.imageButton6);
         iv = (ImageView)findViewById(R.id.imageView);
+        bb1 = (Button)findViewById(R.id.button7);
         final File tempFile = getTempFile(this);
 
-        b1.setOnClickListener(new View.OnClickListener() {
+        bb1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
