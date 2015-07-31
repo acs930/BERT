@@ -228,33 +228,31 @@ public class DrawView extends SurfaceView
 
             switch (touchCount) {
                 case 0:
+                    Toast.makeText(this.getApplicationContext(), "Tap Tail", Toast.LENGTH_SHORT).show();
                     break;
                 case 1:
-                    Toast.makeText(this.getApplicationContext(), "Tap Tail", Toast.LENGTH_SHORT).show();
-                    
-                    break;
-                case 2:
+
                     Toast.makeText(this.getApplicationContext(), "Tap Feet", Toast.LENGTH_SHORT).show();
                     break;
-                case 3:
+                case 2:
                     Toast.makeText(this.getApplicationContext(), "Please press next", Toast.LENGTH_SHORT).show();
                     break;
 
             }
 
 
-        //problem, image might be resizing to fit screen and cause fuckups in point placing
+
 
 
 
                 Bitmap tempBitmap = Bitmap.createBitmap(bp.getWidth(), bp.getHeight(), Bitmap.Config.RGB_565);
                 Canvas tempCanvas = new Canvas(tempBitmap);
                 tempCanvas.drawBitmap(bp, 0, 0, null);
-                tempCanvas.drawCircle((float) xCoord+40, (float) yCoord+40, 50, color);
+                //tempCanvas.drawCircle((float) xCoord+40, (float) yCoord+40, 50, color);
 
-                tempCanvas.drawCircle(100, 100, 50, color);
-                tempCanvas.drawCircle(bp.getWidth(), bp.getHeight(), 50, color);
-                tempCanvas.drawCircle(1400, 2000, 50, color);
+                //tempCanvas.drawCircle(100, 100, 50, color);
+                //tempCanvas.drawCircle(bp.getWidth(), bp.getHeight(), 50, color);
+                //tempCanvas.drawCircle(1400, 2000, 50, color);
 
 
                 iv.setImageDrawable(new BitmapDrawable(getResources(), tempBitmap));
