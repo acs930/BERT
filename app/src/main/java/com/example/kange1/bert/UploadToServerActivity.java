@@ -80,6 +80,8 @@ public class UploadToServerActivity extends Activity {
 
     String ani_name = "", sci_name = "", typ_name = "", siz_name="", wei_name="", lif_name="", die_name="", hab_name="", des_name="";
     int testNumbertest = 2;
+    int json_res;
+    String json_res_s = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -198,6 +200,7 @@ public class UploadToServerActivity extends Activity {
             Log.d(TAG, responseBody);
             responseFromServer = responseBody;
 
+            /*
             HttpResponse responseTwo = httpclientTwo.execute(httpPostTwo);
             HttpEntity result = responseTwo.getEntity();
             if (result != null) {
@@ -211,6 +214,7 @@ public class UploadToServerActivity extends Activity {
             } else {
                 Log.d(TAG, "broke in repsonse");
             }
+            */
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -286,6 +290,7 @@ public class UploadToServerActivity extends Activity {
             Log.d(TAG, "here"+jsonResult);
 
             JSONObject jsonObj = new JSONObject(jsonResult);
+            /*
             ani_name = jsonObj.getString("name");
             sci_name = jsonObj.getString("sci_name");
             typ_name = jsonObj.getString("type");
@@ -295,11 +300,17 @@ public class UploadToServerActivity extends Activity {
             die_name = jsonObj.getString("diet");
             hab_name = jsonObj.getString("habitat");
             des_name = jsonObj.getString("description");
+            */
+
+            //json_res = jsonObj.getInt("animal_id");
+            json_res_s = jsonObj.getString("animal_id");
+
 
             Log.d(TAG, "It gets JSONObject");
-            Log.d(TAG, ani_name);
+            Log.d(TAG, String.valueOf(json_res));
             Intent intent = new Intent(UploadToServerActivity.this, ResultActivity.class);
             Bundle bundle = new Bundle();
+            /*
             bundle.putString("aniString", ani_name);
             bundle.putString("sciString", sci_name);
             bundle.putString("typString", typ_name);
@@ -309,7 +320,10 @@ public class UploadToServerActivity extends Activity {
             bundle.putString("dieString", die_name);
             bundle.putString("habString", hab_name);
             bundle.putString("desString", des_name);
-            bundle.putString("ansId", String.valueOf(testNumbertest));
+            */
+            //bundle.putString("ansId", String.valueOf(testNumbertest));
+            //bundle.putString("ansId", String.valueOf(json_res));
+            bundle.putString("ansId", json_res_s);
 
             intent.putExtras(bundle);
             startActivity(intent);

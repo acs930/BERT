@@ -37,7 +37,7 @@ public class ResultActivity extends Activity {
         iv = (ImageView)findViewById(R.id.imageView5);
         b1 = (Button)findViewById(R.id.button3);
         b2 = (Button)findViewById(R.id.button4);
-        b3 = (Button)findViewById(R.id.button7);
+        b3 = (Button)findViewById(R.id.button8);
 
         testDefault = BitmapFactory.decodeResource(getResources(), R.drawable.question_mark);
         robin = BitmapFactory.decodeResource(getResources(), R.drawable.american_robin_d);
@@ -221,7 +221,7 @@ public class ResultActivity extends Activity {
                 }
             });
 
-            b1.setOnClickListener(new View.OnClickListener() {
+            b2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.d(TAG, "almost there");
