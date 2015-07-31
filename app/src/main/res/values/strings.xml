@@ -2,6 +2,7 @@
     <string name="app_name">BERT</string>
 
     <string name="bert">B.E.R.T.</string>
+    <string name="bertExpanded">Backyard Environment Recognition Tool</string>
     <string name="your_point">Your Point Is: </string>
     <string name="maps">maps</string>
     <string name="profile">Profile</string>
@@ -38,15 +39,11 @@
     <string name="level">Lv.1 Beginner</string>
     <string name="num_pic">Number of Captures</string>
     <string name="num_spe">Number of Species</string>
-=======
+
     <string name="title_activity_camera_and_feature_select">CameraAndFeatureSelect</string>
     <string name="title_activity_bestiary_detail">BestiaryDetailActivity</string>
     <string name="title_activity_result">ResultActivity</string>
     <string name="title_activity_final">FinalActivity</string>
     <string name="title_activity_second_result">SecondResultActivity</string>
 
-=======
-
->>>>>>> master
->>>>>>> AdamBranch
 </resources>
