@@ -125,6 +125,8 @@ public class UploadToServerActivity extends Activity {
                     @Override
                     public void run() {
                         uploadToServer();
+                        //Intent i = new Intent(UploadToServerActivity.this, ResultActivity.class);
+                        //startActivity(i);
                     }
                 });
                 t.start();
@@ -200,6 +202,8 @@ public class UploadToServerActivity extends Activity {
             Log.d(TAG, responseBody);
             responseFromServer = responseBody;
 
+            Intent i = new Intent(UploadToServerActivity.this, ResultActivity.class);
+            startActivity(i);
             /*
             HttpResponse responseTwo = httpclientTwo.execute(httpPostTwo);
             HttpEntity result = responseTwo.getEntity();

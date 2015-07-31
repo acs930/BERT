@@ -12,6 +12,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 
 public class ResultActivity extends Activity {
@@ -27,12 +40,41 @@ public class ResultActivity extends Activity {
 
     int gradeA = 1, gradeB = 2, gradeC = 3;
 
+    String urlServerTwo = "http://52.3.50.112/dbConnect.php";
+    String jsonResult = "";
+
+    int json_res;
+    String json_res_s = "";
+    int testPicValue;
+
     private static final String  TAG = ResultActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
+
+        try {
+            HttpClient httpclientTwo = new DefaultHttpClient();
+
+            HttpPost httpPostTwo = new HttpPost(urlServerTwo);
+
+            HttpResponse responseTwo = httpclientTwo.execute(httpPostTwo);
+            HttpEntity result = responseTwo.getEntity();
+            if (result != null) {
+                InputStream input = result.getContent();
+                jsonResult = convertStreamToString(input);
+                Log.d(TAG, jsonResult);
+                Log.d(TAG, "jesonResult works");
+
+                testReceiveData(jsonResult); //It said position needs to be declared final above
+                Log.d(TAG, "maybe this one works too");
+            } else {
+                Log.d(TAG, "broke in repsonse");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         iv = (ImageView)findViewById(R.id.imageView5);
         b1 = (Button)findViewById(R.id.button3);
@@ -72,9 +114,10 @@ public class ResultActivity extends Activity {
         cat = BitmapFactory.decodeResource(getResources(), R.drawable.siamese_cat_d);
         question = BitmapFactory.decodeResource(getResources(), R.drawable.no_id_bird_s);
 
-        picValue = Integer.valueOf(getIntent().getStringExtra("ansId"));
+        //picValue = Integer.valueOf(getIntent().getStringExtra("ansId"));
+        testPicValue = Integer.valueOf(json_res_s);
 
-        switch (picValue) {
+        switch (testPicValue) {
             case 0:
                 iv.setImageBitmap(question);
                 break;
@@ -237,6 +280,68 @@ public class ResultActivity extends Activity {
                     startActivity(i);
                 }
             });
+        }
+    }
+
+    private String convertStreamToString(InputStream is) {
+        String line = "";
+        StringBuilder total = new StringBuilder();
+        BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+        try {
+            while ((line = rd.readLine()) != null) {
+                total.append(line);
+            }
+        } catch (Exception e) {
+            Toast.makeText(this, "Stream Exception", Toast.LENGTH_SHORT).show();
+        }
+        return total.toString();
+    }
+
+    public void testReceiveData(String jsonResult) {
+        try {
+            Log.d(TAG, "here"+jsonResult);
+
+            JSONObject jsonObj = new JSONObject(jsonResult);
+            /*
+            ani_name = jsonObj.getString("name");
+            sci_name = jsonObj.getString("sci_name");
+            typ_name = jsonObj.getString("type");
+            siz_name = jsonObj.getString("size");
+            wei_name = jsonObj.getString("weight");
+            lif_name = jsonObj.getString("lifespan");
+            die_name = jsonObj.getString("diet");
+            hab_name = jsonObj.getString("habitat");
+            des_name = jsonObj.getString("description");
+            */
+
+            //json_res = jsonObj.getInt("animal_id");
+            json_res_s = jsonObj.getString("animal_id");
+
+
+            Log.d(TAG, "It gets JSONObject");
+            Log.d(TAG, String.valueOf(json_res));
+            //Intent intent = new Intent(UploadToServerActivity.this, ResultActivity.class);
+            //Bundle bundle = new Bundle();
+            /*
+            bundle.putString("aniString", ani_name);
+            bundle.putString("sciString", sci_name);
+            bundle.putString("typString", typ_name);
+            bundle.putString("sizString", siz_name);
+            bundle.putString("weiString", wei_name);
+            bundle.putString("lifString", lif_name);
+            bundle.putString("dieString", die_name);
+            bundle.putString("habString", hab_name);
+            bundle.putString("desString", des_name);
+            */
+            //bundle.putString("ansId", String.valueOf(testNumbertest));
+            //bundle.putString("ansId", String.valueOf(json_res));
+            //bundle.putString("ansId", json_res_s);
+
+            //intent.putExtras(bundle);
+            //startActivity(intent);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }
