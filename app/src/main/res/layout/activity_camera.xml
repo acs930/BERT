@@ -15,34 +15,12 @@
         android:layout_centerHorizontal="true" />
 
     <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:layout_width="100dp"
+        android:layout_height="33dp"
         android:id="@+id/imageButton6"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton7"
-        android:layout_alignTop="@+id/imageButton6"
-        android:layout_toLeftOf="@+id/imageButton6"
-        android:layout_toStartOf="@+id/imageButton6" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton8"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/imageButton6"
-        android:layout_toEndOf="@+id/imageButton6"  />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Take Snapshot"
-        android:id="@+id/button7"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/snapshot_button" />
 
 </RelativeLayout>

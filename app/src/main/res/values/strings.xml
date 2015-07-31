@@ -30,6 +30,8 @@
     <string name="congratulation">Congratulation!!</string>
     <string name="score">Score</string>
 
+    <string name="is_this_two">Was The Species One of The Following:</string>
+
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_select">SelectActivity</string>
     <string name="title_activity_upload_to_server">UploadToServerActivity</string>
