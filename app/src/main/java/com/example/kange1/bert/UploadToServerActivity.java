@@ -71,7 +71,7 @@ public class UploadToServerActivity extends Activity {
     private long fileSize = 0;
 
     String urlServer = "http://52.3.50.112/imageHandler.php";
-    String urlServerTwo = "http://52.3.50.112/dbConnect.php";
+    //String urlServerTwo = "http://52.3.50.112/jsonClassificationResults.php";
     //HttpURLConnection connection = null;
 
     HttpURLConnection con = null;
@@ -125,8 +125,7 @@ public class UploadToServerActivity extends Activity {
                     @Override
                     public void run() {
                         uploadToServer();
-                        //Intent i = new Intent(UploadToServerActivity.this, ResultActivity.class);
-                        //startActivity(i);
+
                     }
                 });
                 t.start();
@@ -178,10 +177,10 @@ public class UploadToServerActivity extends Activity {
         try {
             String responseString = null;
             HttpClient httpclient = new DefaultHttpClient();
-            HttpClient httpclientTwo = httpclient;
+            //HttpClient httpclientTwo = httpclient;
 
             HttpPost httpPost = new HttpPost(urlServer);
-            HttpPost httpPostTwo = new HttpPost(urlServerTwo);
+            //HttpPost httpPostTwo = new HttpPost(urlServerTwo);
 
             List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
             imageData = Base64.encodeToString(img, Base64.DEFAULT);
@@ -199,14 +198,13 @@ public class UploadToServerActivity extends Activity {
             HttpResponse response = httpclient.execute(httpPost);
 
             String responseBody = EntityUtils.toString(response.getEntity());
-            Log.d(TAG, responseBody);
+            Log.d(TAG, "Hello tjere" + responseBody);
             responseFromServer = responseBody;
+            //testReceiveData("test");
 
-            Intent i = new Intent(UploadToServerActivity.this, ResultActivity.class);
-            startActivity(i);
-            /*
-            HttpResponse responseTwo = httpclientTwo.execute(httpPostTwo);
-            HttpEntity result = responseTwo.getEntity();
+
+            //HttpResponse responseTwo = httpclientTwo.execute(httpPostTwo);
+            HttpEntity result = response.getEntity();
             if (result != null) {
                 InputStream input = result.getContent();
                 jsonResult = convertStreamToString(input);
@@ -218,7 +216,7 @@ public class UploadToServerActivity extends Activity {
             } else {
                 Log.d(TAG, "broke in repsonse");
             }
-            */
+
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -327,11 +325,12 @@ public class UploadToServerActivity extends Activity {
             */
             //bundle.putString("ansId", String.valueOf(testNumbertest));
             //bundle.putString("ansId", String.valueOf(json_res));
-            bundle.putString("ansId", json_res_s);
+            //bundle.putString("ansId", json_res_s);
 
             intent.putExtras(bundle);
             startActivity(intent);
-
+            //Intent i = new Intent(UploadToServerActivity.this, ResultActivity.class);
+            //startActivity(i);
         } catch (JSONException e) {
             e.printStackTrace();
         }

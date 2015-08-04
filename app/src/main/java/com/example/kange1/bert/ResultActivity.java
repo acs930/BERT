@@ -54,7 +54,7 @@ public class ResultActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
 
-        try {
+        /*try {
             HttpClient httpclientTwo = new DefaultHttpClient();
 
             HttpPost httpPostTwo = new HttpPost(urlServerTwo);
@@ -74,7 +74,7 @@ public class ResultActivity extends Activity {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
 
         iv = (ImageView)findViewById(R.id.imageView5);
         b1 = (Button)findViewById(R.id.button3);
