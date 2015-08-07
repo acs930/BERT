@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,8 +18,10 @@ import android.widget.Toast;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -36,11 +39,11 @@ public class ResultActivity extends Activity {
     int picValue;
     String passName;
     String passTitle = "Congratulation!!";
-    String passSub = "You take a picture of";
+    String passSub = "BERT's Classification of your snapshot is:";
 
     int gradeA = 1, gradeB = 2, gradeC = 3;
 
-    String urlServerTwo = "http://52.3.50.112/dbConnect.php";
+    String resultConnection = "http://52.3.50.112/FinalResult.php";
     String jsonResult = "";
 
     int json_res;
@@ -115,127 +118,9 @@ public class ResultActivity extends Activity {
         question = BitmapFactory.decodeResource(getResources(), R.drawable.no_id_bird_s);
 
         //picValue = Integer.valueOf(getIntent().getStringExtra("ansId"));
-        testPicValue = Integer.valueOf(json_res_s);
+        //testPicValue = Integer.valueOf(json_res_s);
 
-        switch (testPicValue) {
-            case 0:
-                iv.setImageBitmap(question);
-                break;
-            case 1:
-                iv.setImageBitmap(robin);
-                passName = "American Robin";
-                break;
-            case 2:
-                iv.setImageBitmap(jay);
-                passName = "Blue Jay";
-                break;
-            case 3:
-                iv.setImageBitmap(goose);
-                passName = "Canada Goose";
-                break;
-            case 4:
-                iv.setImageBitmap(grackles);
-                passName = "Common Grackles";
-                break;
-            case 5:
-                iv.setImageBitmap(woodpecker);
-                passName = "Downy Woodpecker";
-                break;
-            case 6:
-                iv.setImageBitmap(mallard);
-                passName = "Mallard";
-                break;
-            case 7:
-                iv.setImageBitmap(doves);
-                passName = "Mourning Doves";
-                break;
-            case 8:
-                iv.setImageBitmap(pigeons);
-                passName = "Rock Dove";
-                break;
-            case 9:
-                iv.setImageBitmap(squrrel);
-                passName = "Gray Squrrel";
-                break;
-            case 10:
-                iv.setImageBitmap(cottontail);
-                passName = "Eastern New England Cottontail";
-                break;
-            case 11:
-                iv.setImageBitmap(crow);
-                passName = "American Crow";
-                break;
-            case 12:
-                iv.setImageBitmap(goldfinch);
-                passName = "American Goldfinch";
-                break;
-            case 13:
-                iv.setImageBitmap(toad);
-                passName = "American Toad";
-                break;
-            case 14:
-                iv.setImageBitmap(chickadee);
-                passName = "Black-Capped Chickadee";
-                break;
-            case 15:
-                iv.setImageBitmap(cardinal);
-                passName = "Cardinal";
-                break;
-            case 16:
-                iv.setImageBitmap(cow);
-                passName = "Cow";
-                break;
-            case 17:
-                iv.setImageBitmap(deer);
-                passName = "White-Tailed Deer";
-                break;
-            case 18:
-                iv.setImageBitmap(chipmunk);
-                passName = "Eastern Chipmunk";
-                break;
-            case 19:
-                iv.setImageBitmap(turtle);
-                passName = "Eastern Painted Turtle";
-                break;
-            case 20:
-                iv.setImageBitmap(fox);
-                passName = "Red Fox";
-                break;
-            case 21:
-                iv.setImageBitmap(gull);
-                passName = "Ring-Billed Gull";
-                break;
-            case 22:
-                iv.setImageBitmap(mouse);
-                passName = "MOuse";
-                break;
-            case 23:
-                iv.setImageBitmap(pig);
-                passName = "Pig";
-                break;
-            case 24:
-                iv.setImageBitmap(raccoon);
-                passName = "Raccoon";
-                break;
-            case 25:
-                iv.setImageBitmap(rat);
-                passName = "Rat";
-                break;
-            case 26:
-                iv.setImageBitmap(blackbird);
-                passName = "Red-Winged Blackbird";
-                break;
-            case 27:
-                iv.setImageBitmap(sheep);
-                passName = "Sheep";
-                break;
-            case 28:
-                iv.setImageBitmap(cat);
-                passName = "Siamese Cat";
-                break;
-            default:
-                iv.setImageBitmap(testDefault);
-        }
+        (new RetrieveIdResult()).execute(resultConnection);
 
         if (picValue == 0) {
             b3.setOnClickListener(new View.OnClickListener() {
@@ -302,46 +187,192 @@ public class ResultActivity extends Activity {
             Log.d(TAG, "here"+jsonResult);
 
             JSONObject jsonObj = new JSONObject(jsonResult);
-            /*
-            ani_name = jsonObj.getString("name");
-            sci_name = jsonObj.getString("sci_name");
-            typ_name = jsonObj.getString("type");
-            siz_name = jsonObj.getString("size");
-            wei_name = jsonObj.getString("weight");
-            lif_name = jsonObj.getString("lifespan");
-            die_name = jsonObj.getString("diet");
-            hab_name = jsonObj.getString("habitat");
-            des_name = jsonObj.getString("description");
-            */
 
-            //json_res = jsonObj.getInt("animal_id");
             json_res_s = jsonObj.getString("animal_id");
 
 
             Log.d(TAG, "It gets JSONObject");
             Log.d(TAG, String.valueOf(json_res));
-            //Intent intent = new Intent(UploadToServerActivity.this, ResultActivity.class);
-            //Bundle bundle = new Bundle();
-            /*
-            bundle.putString("aniString", ani_name);
-            bundle.putString("sciString", sci_name);
-            bundle.putString("typString", typ_name);
-            bundle.putString("sizString", siz_name);
-            bundle.putString("weiString", wei_name);
-            bundle.putString("lifString", lif_name);
-            bundle.putString("dieString", die_name);
-            bundle.putString("habString", hab_name);
-            bundle.putString("desString", des_name);
-            */
-            //bundle.putString("ansId", String.valueOf(testNumbertest));
-            //bundle.putString("ansId", String.valueOf(json_res));
-            //bundle.putString("ansId", json_res_s);
 
-            //intent.putExtras(bundle);
-            //startActivity(intent);
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
+
+    private class RetrieveIdResult extends AsyncTask<String, Void, Integer> {
+
+        protected void onPostExecute(int result) {
+
+            picValue = result;
+            switch (result) {
+                case 0:
+                    iv.setImageBitmap(question);
+                    break;
+                case 1:
+                    iv.setImageBitmap(robin);
+                    passName = "American Robin";
+                    break;
+                case 2:
+                    iv.setImageBitmap(jay);
+                    passName = "Blue Jay";
+                    break;
+                case 3:
+                    iv.setImageBitmap(goose);
+                    passName = "Canada Goose";
+                    break;
+                case 4:
+                    iv.setImageBitmap(grackles);
+                    passName = "Common Grackles";
+                    break;
+                case 5:
+                    iv.setImageBitmap(woodpecker);
+                    passName = "Downy Woodpecker";
+                    break;
+                case 6:
+                    iv.setImageBitmap(mallard);
+                    passName = "Mallard";
+                    break;
+                case 7:
+                    iv.setImageBitmap(doves);
+                    passName = "Mourning Doves";
+                    break;
+                case 8:
+                    iv.setImageBitmap(pigeons);
+                    passName = "Rock Dove";
+                    break;
+                case 9:
+                    iv.setImageBitmap(squrrel);
+                    passName = "Gray Squrrel";
+                    break;
+                case 10:
+                    iv.setImageBitmap(cottontail);
+                    passName = "Eastern New England Cottontail";
+                    break;
+                case 11:
+                    iv.setImageBitmap(crow);
+                    passName = "American Crow";
+                    break;
+                case 12:
+                    iv.setImageBitmap(goldfinch);
+                    passName = "American Goldfinch";
+                    break;
+                case 13:
+                    iv.setImageBitmap(toad);
+                    passName = "American Toad";
+                    break;
+                case 14:
+                    iv.setImageBitmap(chickadee);
+                    passName = "Black-Capped Chickadee";
+                    break;
+                case 15:
+                    iv.setImageBitmap(cardinal);
+                    passName = "Cardinal";
+                    break;
+                case 16:
+                    iv.setImageBitmap(cow);
+                    passName = "Cow";
+                    break;
+                case 17:
+                    iv.setImageBitmap(deer);
+                    passName = "White-Tailed Deer";
+                    break;
+                case 18:
+                    iv.setImageBitmap(chipmunk);
+                    passName = "Eastern Chipmunk";
+                    break;
+                case 19:
+                    iv.setImageBitmap(turtle);
+                    passName = "Eastern Painted Turtle";
+                    break;
+                case 20:
+                    iv.setImageBitmap(fox);
+                    passName = "Red Fox";
+                    break;
+                case 21:
+                    iv.setImageBitmap(gull);
+                    passName = "Ring-Billed Gull";
+                    break;
+                case 22:
+                    iv.setImageBitmap(mouse);
+                    passName = "Mouse";
+                    break;
+                case 23:
+                    iv.setImageBitmap(pig);
+                    passName = "Pig";
+                    break;
+                case 24:
+                    iv.setImageBitmap(raccoon);
+                    passName = "Raccoon";
+                    break;
+                case 25:
+                    iv.setImageBitmap(rat);
+                    passName = "Rat";
+                    break;
+                case 26:
+                    iv.setImageBitmap(blackbird);
+                    passName = "Red-Winged Blackbird";
+                    break;
+                case 27:
+                    iv.setImageBitmap(sheep);
+                    passName = "Sheep";
+                    break;
+                case 28:
+                    iv.setImageBitmap(cat);
+                    passName = "Siamese Cat";
+                    break;
+                default:
+                    iv.setImageBitmap(testDefault);
+            }
+
+
+///HERE I AM
+            //Need to get it so that this sets the image view to the correct image and then when the next button is hit
+            //the animal id can be grabbed form that same image view(set from async task)
+
+            Log.d(TAG, "woot");
+
+        }
+
+
+        @Override
+        protected Integer doInBackground(String... params) {
+            String response = "";
+            int animalResultId = 0;
+            DefaultHttpClient client = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet(params[0]);
+            try {
+                HttpResponse execute = client.execute(httpGet);
+                InputStream content = execute.getEntity().getContent();
+                //  Log.d(TAG, "executing");
+                BufferedReader buffer = new BufferedReader(new InputStreamReader(content));
+                String s = "";
+                while ((s = buffer.readLine()) != null) {
+                    response += s;
+                    // Log.d(TAG, "gettting response");
+                }
+
+                JSONObject obj = new JSONObject(response);
+                animalResultId = (int) obj.get("animal_id");
+
+                //Log.d(TAG, "h" + arr.length());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            //This is gonna be a json message
+
+            return animalResultId;
+        }
+
+    @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            Toast.makeText(getApplicationContext(), "Downloading Results", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
 }

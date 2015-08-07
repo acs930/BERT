@@ -130,6 +130,9 @@ public class UploadToServerActivity extends Activity {
                 });
                 t.start();
 
+                Intent intent = new Intent(UploadToServerActivity.this, ResultActivity.class);
+                startActivity(intent);
+
                 Toast.makeText(UploadToServerActivity.this,"Upload Successful", Toast.LENGTH_SHORT).show();
                 //TextView text = (TextView)findViewById(R.id.textView5);
                 //text.setText(responseFromServer);
