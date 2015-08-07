@@ -25,6 +25,7 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Random;
 
 
 public class ResultActivity extends Activity {
@@ -115,7 +116,11 @@ public class ResultActivity extends Activity {
         question = BitmapFactory.decodeResource(getResources(), R.drawable.no_id_bird_s);
 
         //picValue = Integer.valueOf(getIntent().getStringExtra("ansId"));
-        testPicValue = Integer.valueOf(json_res_s);
+        Random rn = new Random();
+       int rnum =  rn.nextInt(3 - 0 + 1) + 0;
+        testPicValue = rnum;
+        picValue = rnum;
+        //testPicValue = Integer.valueOf(json_res_s);
 
         switch (testPicValue) {
             case 0:

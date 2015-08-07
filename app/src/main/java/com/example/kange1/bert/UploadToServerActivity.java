@@ -129,7 +129,13 @@ public class UploadToServerActivity extends Activity {
                     }
                 });
                 t.start();
+                //try {
+                    //wait(4000);
+                    Intent intent = new Intent(UploadToServerActivity.this, ResultActivity.class);
+                    startActivity(intent);
+                //} catch (InterruptedException e) {
 
+               // }
                 Toast.makeText(UploadToServerActivity.this,"Upload Successful", Toast.LENGTH_SHORT).show();
                 //TextView text = (TextView)findViewById(R.id.textView5);
                 //text.setText(responseFromServer);
@@ -211,7 +217,7 @@ public class UploadToServerActivity extends Activity {
                 Log.d(TAG, jsonResult);
                 Log.d(TAG, "jesonResult works");
 
-                testReceiveData(jsonResult); //It said position needs to be declared final above
+                //testReceiveData(jsonResult); //It said position needs to be declared final above
                 Log.d(TAG, "maybe this one works too");
             } else {
                 Log.d(TAG, "broke in repsonse");
