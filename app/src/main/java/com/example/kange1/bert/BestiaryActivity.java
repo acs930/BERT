@@ -254,6 +254,7 @@ public class BestiaryActivity extends Activity {
                             public void run() {
                                 Looper.prepare();
                                 aniNumber = position+1;
+                                Log.d(TAG, "" +aniNumber);
                                 uploadToServer(aniNumber);
                                 Log.d(TAG, "my thread works");
                             }

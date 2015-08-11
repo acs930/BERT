@@ -159,7 +159,7 @@ public class ResultActivity extends Activity {
                     bundle.putString("disNum", String.valueOf(picValue));
                     bundle.putString("disTit", passTitle);
                     bundle.putString("disSub", passSub);
-                    bundle.putString("gradVal", String.valueOf(gradeA));
+                    bundle.putString("gradVal", String.valueOf(gradeC));
 
                     i.putExtras(bundle);
                     startActivity(i);

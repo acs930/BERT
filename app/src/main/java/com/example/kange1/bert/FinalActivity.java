@@ -73,8 +73,9 @@ public class FinalActivity extends Activity {
         Bgrade = BitmapFactory.decodeResource(getResources(), R.drawable.b_h);
         Cgrade = BitmapFactory.decodeResource(getResources(), R.drawable.c_h);
 
-        picValue = Integer.valueOf(getIntent().getStringExtra("disNum"));
-        switch (picValue) {
+       int resultId = getIntent().getIntExtra("disNum", 0);
+        Log.d("Final", "" + resultId);
+        switch (resultId) {
             case 1:
                 iv.setImageBitmap(robin);
                 break;
@@ -163,7 +164,7 @@ public class FinalActivity extends Activity {
                 iv.setImageBitmap(testDefault);
         }
 
-        gradeValue = Integer.valueOf(getIntent().getStringExtra("disNum"));
+        gradeValue = Integer.valueOf(getIntent().getIntExtra("disNum", 0));
         switch (gradeValue) {
             case 1:
                 v1.setImageBitmap(Agrade);
@@ -175,7 +176,7 @@ public class FinalActivity extends Activity {
                 v1.setImageBitmap(Cgrade);
                 break;
             default:
-                iv.setImageBitmap(testDefault);
+                v1.setImageBitmap(Cgrade);
         }
 
         t0.setText(getIntent().getStringExtra("disTit"));
